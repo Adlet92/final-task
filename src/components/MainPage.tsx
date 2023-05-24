@@ -8,7 +8,7 @@ const MainPage = () => {
     const handleLogin = () => {
         try {
             // await login();
-            navigate('/auth');
+            navigate('/auth/signup');
         }catch (e){
             console.log(e.message)
         }
