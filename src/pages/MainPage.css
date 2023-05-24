@@ -34,7 +34,7 @@
     position: absolute;
     width: 300px;
     height: 57px;
-    left: 836px;
+    left: 850px;
     top: 217px;
     font-family: 'Open Sans';
     font-style: normal;
@@ -42,8 +42,9 @@
     font-size: 14px;
     line-height: 19px;
     color: #616161;
+    text-align: left;
 }
-.descText2{
+/* .descText2{
     position: absolute;
     width: 300px;
     height: 57px;
@@ -69,7 +70,7 @@
     line-height: 19px;
     color: #616161;
 }
-  
+   */
   
 .loginButton{
     position: absolute;
@@ -79,12 +80,11 @@
     top: 304px;
     background: #FFFFFF;
     border-radius: 24px;
-
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 700;
     font-size: 12px;
     line-height: 16px;
-
     color: #175BC0;
+    margin-top: 12px;
 }

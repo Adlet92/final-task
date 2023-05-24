@@ -5,17 +5,16 @@
 	box-sizing: border-box;
 	/* font-family: 'Open Sans', sans-serif; */
 }
-body{
+/* body{
 	display: flex;
 	align-items: center;
 	justify-content: center;
     height: 100vh;
-    /* height: 1222px; */
 	background-image: url('../assets/main.svg'); 
     background-repeat: no-repeat;
     background-size: 100%;
     background-color: transparent;
-}
+} */
 /* .mainPage{
     position: absolute;
     width: 100%;
@@ -108,8 +107,13 @@ form .data input{
     color: #6C6C6C;
     border-color: transparent;
 }
+form .data input:not(:placeholder-shown) {
+    border: 1px solid #9F9F9F;
+    background: white;
+  }
 .error-input {
     border: 2px solid #EC3030 !important;
+    background: white;
   }
 .error-message {
     left: calc(50% - 396px/2 + 22px);

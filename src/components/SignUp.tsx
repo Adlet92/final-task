@@ -51,7 +51,7 @@ const SignUp = () => {
     }
         try{
             await createUser(email, password)
-            navigate('/account')
+            navigate('/search')
         }catch (e: any){
             setError(e.message)
         }
@@ -62,51 +62,53 @@ const SignUp = () => {
       };
 
     return (
-    <div className={`main-container ${error ? 'error' : ''}`}>
-        <div className="container">
-            <div className="signup-container">
-                <div className="text">Sign up</div>
-        
-                <form onSubmit={handleSubmit}>
-                    <div className="data">
-                    <label>Email</label>
-                    <input 
-                        onChange={(e) => setEmail(e.target.value)} 
-                        type="email" 
-                        placeholder="Enter your email"
-                        className={error ? "error-input" : ""}/>
+        <div className="main">
+            <div className={`main-container ${error ? 'error' : ''}`}>
+                <div className="container">
+                    <div className="signup-container">
+                        <div className="text">Sign up</div>
+                
+                        <form onSubmit={handleSubmit}>
+                            <div className="data">
+                            <label>Email</label>
+                            <input 
+                                onChange={(e) => setEmail(e.target.value)} 
+                                type="email" 
+                                placeholder="Enter your email"
+                                className={error ? "error-input" : ""}/>
+                            </div>
+                            <div className="data">
+                            <label>Password</label>
+                            <input 
+                                onChange={(e) => setPassword(e.target.value)} 
+                                type="password" 
+                                placeholder="Enter your password"
+                                className={error ? "error-input" : ""}/>
+                            </div>
+                
+                            <div className="data">
+                            <label>Repeat Password</label>
+                            <input 
+                                type="password" 
+                                placeholder="Enter your password again"
+                                value={repeatPassword}
+                                onChange={handleRepeatPasswordChange}
+                                className={error ? "error-input" : ""} 
+                                />
+                            </div>
+                            {error && <div className="error-message">{error}</div>}
+                            <div className="btn-signup">
+                            <button type="submit">Create Account</button>
+                            </div>
+                
+                            <div className="signup-link">
+                            Already have an account? <Link to='/auth/signin'><label className="slide">Login</label></Link>
+                            </div>
+                        </form>
                     </div>
-                    <div className="data">
-                    <label>Password</label>
-                    <input 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        type="password" 
-                        placeholder="Enter your password"
-                        className={error ? "error-input" : ""}/>
-                    </div>
-        
-                    <div className="data">
-                    <label>Repeat Password</label>
-                    <input 
-                        type="password" 
-                        placeholder="Enter your password again"
-                        value={repeatPassword}
-                        onChange={handleRepeatPasswordChange}
-                        className={error ? "error-input" : ""} 
-                        />
-                    </div>
-                    {error && <div className="error-message">{error}</div>}
-                    <div className="btn-signup">
-                    <button type="submit">Create Account</button>
-                    </div>
-        
-                    <div className="signup-link">
-                    Already have an account? <Link to='/auth/signin'><label className="slide">Login</label></Link>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
     )
 }
 
