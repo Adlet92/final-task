@@ -27,9 +27,9 @@ body{
     background-size: 100%;
     background-color: transparent;
 } */
-.main-container{
+.main-container-signin{
 	width: 456px;
-    height: 434px;
+    height: 349px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -41,9 +41,9 @@ body{
 	padding: 30px;
 	border-radius: 12px;
 }
-.error{
+.error-signin{
 	width: 456px;
-    height: 484px;
+    height: 399px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -56,17 +56,17 @@ body{
 	border-radius: 12px;
 }
 
-.container{
+.container-signin{
 	height: 100%;
 	position: absolute;
 }
-.signup-container{
+.signin-container{
 	width: 410px;
 	height: 100%;
     padding-left: 31px;
     padding-right: 30px;
 }
-.text{
+.text-signin{
 	text-align: center;
     font-family: 'Open Sans';
     font-style: normal;
@@ -77,12 +77,12 @@ body{
     padding-top: 26px;
     padding-bottom: 20px;
 }
-.data{
+.data-signin{
 	height: 45px;
 	width: 100%;
 	margin-bottom: 40px;
 }
-form .data label{
+form .data-signin label{
     display: flex;
     font-family: 'Open Sans';
     font-style: normal;
@@ -93,7 +93,7 @@ form .data label{
     padding-bottom: 1px;
 }
 
-form .data input{
+form .data-signin input{
 	height: 100%;
 	width: 100%;
 	padding-left: 10px;
@@ -108,10 +108,10 @@ form .data input{
     color: #6C6C6C;
     border-color: transparent;
 }
-.error-input {
+.error-input-signin {
     border: 2px solid #EC3030 !important;
   }
-.error-message {
+.error-message-signin {
     left: calc(50% - 396px/2 + 22px);
     top: calc(50% - 12px/2 + 68px);
 
@@ -124,14 +124,14 @@ form .data input{
     color: #EC3030;
   }
 
-form .btn-signup{
+form .btn-signin{
 	height: 45px;
 	width: 100%;
     margin-top: 24px;
     margin-bottom: 8px;
 }
 
-form .btn-signup button{
+form .btn-signin button{
 	height: 100%;
 	width: 100%;
 	color: #fff;
@@ -150,7 +150,7 @@ form .btn-signup button{
 }
 
 
-form .signup-link{
+form .signin-link{
 	text-align: center;
     font-family: 'Open Sans';
     font-style: normal;
@@ -160,13 +160,13 @@ form .signup-link{
     color: #000000;
 }
 
-form .signup-link a{
+form .signin-link a{
     font-weight: 800;
     color: #000000;
 	text-decoration: none;
 }
 
-form .signup-link .slide{
+form .signin-link .slide-signin{
 	cursor: pointer;
 }
 

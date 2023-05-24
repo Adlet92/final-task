@@ -8,8 +8,8 @@ const MainPage = () => {
     const handleLogin = () => {
         try {
             // await login();
-            navigate('/auth/signup');
-        }catch (e){
+            navigate('/auth/signin');
+        }catch (e: any){
             console.log(e.message)
         }
     }

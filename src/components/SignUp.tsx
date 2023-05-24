@@ -5,7 +5,7 @@ import '../pages/SignUp.css'
 
 const SignUp = () => {
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('password');
+    const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState(''); 
     const [error, setError] = useState('');
     const {createUser}  = UserAuth();
@@ -15,7 +15,6 @@ const SignUp = () => {
         e.preventDefault()
         setError('')
 
-    // Validation rules
     const emailRegex = /^\S+@\S+\.\S+$/;
     const lowercaseRegex = /[a-z]/;
     const uppercaseRegex = /[A-Z]/;
@@ -102,7 +101,7 @@ const SignUp = () => {
                     </div>
         
                     <div className="signup-link">
-                    Already have an account? <Link to='/'><label className="slide">Login</label></Link>
+                    Already have an account? <Link to='/auth/signin'><label className="slide">Login</label></Link>
                     </div>
                 </form>
             </div>
