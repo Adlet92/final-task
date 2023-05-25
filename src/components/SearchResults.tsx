@@ -34,8 +34,8 @@ const SearchResults = ({ query }) => {
   if (results.length === 0) {
     return (
       <div className="no-result">
-        <p className="upper-text">No results found for the search query.</p>
-        <p className="bottom-text">Please try a different search query.</p>
+        <p className="bottom-text">Please start a search to display results</p>
+        <p className="upper-text">No data to display</p>
       </div>
     )
   }
