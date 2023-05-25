@@ -1,9 +1,4 @@
-/* body {
-    background: none;
-} */
-.search-page{
-  background: none;
-}
+
 .header {
     box-sizing: border-box;
     display: flex;
@@ -56,6 +51,7 @@
     height: 32px;
     left: 923px;
     top: 0px;
+    background-color: transparent;
 
     border-radius: 16px;
     cursor: pointer;
@@ -134,20 +130,57 @@
 
   /* Search Result */
   .search-result {
-    /* padding: 20px; */
-
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    
     position: absolute;
-    width: 237px;
+    width: 1020px;
+    height: 40px;
+    left: 130px;
+    top: 188px;
+/*     
+    background: #F5F5F5; */
+    border-radius: 8px;
+    /* position: absolute; */
+    /* width: 500px;
     height: 38px;
     left: 517px;
-    top: 394px;
+    top: 394px; */
 
-    font-family: Open Sans;
+    font-family: 'Open Sans';
     font-size: 14px;
     font-weight: 400;
     line-height: 19px;
     letter-spacing: 0em;
   }
+  .no-result {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    padding: 0px;
+    
+    position: absolute;
+    width: 1020px;
+    height: 40px;
+    left: 130px;
+    top: 188px;
+    /* position: absolute; */
+    /* width: 500px;
+    height: 38px;
+    left: 517px;
+    top: 394px; */
+
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #616161;
+  }
   .bottom-text {
     text-align: left;
   }
+
+ 

@@ -1,0 +1,40 @@
+
+*{
+ margin:0;
+ padding: 0;
+ /* outline: 0; */
+}
+
+.table-container{
+    max-height: 674px; 
+    overflow-y: auto;
+}
+table{
+ width: 100%;
+ table-layout: fixed; 
+ border-collapse: collapse;
+}
+td , th{
+ padding: 15px 20px;
+ text-align: center;
+ 
+
+}
+th{
+ background: linear-gradient(0deg, #BFBFBF, #BFBFBF), #BFBFBF;
+ color: #fafafa;
+ font-family: 'Inter';
+ font-style: normal;
+ font-weight: 600;
+ font-size: 14px;
+ line-height: 17px;
+
+ color: #000000;
+
+ 
+}
+tr{
+ width: 100%;
+ background-color: #FFFFFF;
+ font-family: 'Inter';
+}
