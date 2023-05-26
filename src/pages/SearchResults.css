@@ -34,7 +34,146 @@ th{
  
 }
 tr{
- width: 100%;
  background-color: #FFFFFF;
  font-family: 'Inter';
+ height: 68px;
+}
+.results-number{
+    text-align: initial;
+    width: 100%;
+    height: 22px;
+    margin-bottom: 20px;
+    margin-top: -45px;
+
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    color: #2B2B2B; 
+}
+.number{
+    width: 48px;
+    height: 40px;
+    background: #F5F5F5;
+}
+.entry{
+    width: 115px;
+    height: 47px;
+    background: #F5F5F5;
+    border-left: 2px solid #FFFFFF;
+    text-align: initial;
+}
+.entry img{
+    margin-left: 21px;
+}
+.entry-name{
+    width: 166.5px;
+    height: 40px;
+    background: #F5F5F5;
+    border-left: 2px solid #FFFFFF;
+    text-align: initial;
+}
+.entry-name img{
+    margin-left: 31px;
+}
+.genes{
+    width: 166.5px;
+    height: 40px;
+    background: #F5F5F5;
+    border-left: 2px solid #FFFFFF;
+    text-align: initial;
+}
+.genes img{
+    margin-left: 67px;
+}
+.organism{
+    width: 166.5px;
+    height: 40px;
+    background: #F5F5F5;
+    border-left: 2px solid #FFFFFF;
+    text-align: initial;
+}
+.organism img{
+    margin-left: 47px;
+}
+.location{
+    width: 191px;
+    height: 40px;
+    background: #F5F5F5;
+    border-left: 2px solid #FFFFFF;
+    text-align: initial;
+}
+.length{
+    width: 166.5px;
+    height: 40px;
+    background: #F5F5F5;
+    border-left: 2px solid #FFFFFF;
+    text-align: initial;
+}
+.length img{
+    margin-left: 65px;
+}
+.primaryAccession{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    color: #175BC0;
+    text-align: initial;
+}
+.uniProtkbId{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #2B2B2B;
+    text-align: initial;
+}
+.genes-column{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    color: #2B2B2B;
+    text-align: initial;
+}
+.scientificName{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 12px;
+    gap: 10px;
+    background: #D8E7FF;
+    border-radius: 12px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #2B2B2B;
+    margin-top: 23px;
+    text-align: initial;
+}
+.subcellularLocations{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #2B2B2B;
+    text-align: initial;
+}
+.lengthLast{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #2B2B2B;
+    text-align: initial;
 }
