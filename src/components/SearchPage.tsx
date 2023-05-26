@@ -1,7 +1,7 @@
 import "../pages/SearchPage.css"
 
-import React, { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import React, { useEffect, useState } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 
 import { UserAuth } from "../context/AuthContext"
 import SearchResults from "./SearchResults"
@@ -11,6 +11,14 @@ const SearchPage = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const [submittedQuery, setSubmittedQuery] = useState("")
   const navigate = useNavigate()
+  const location = useLocation();
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const query = queryParams.get("query");
+    setSearchQuery(query || "");
+    setSubmittedQuery(query || "");
+  }, [location.search]);
 
   const handleLogout = async () => {
     try {
@@ -26,10 +34,8 @@ const SearchPage = () => {
     const trimmedQuery = searchQuery.trim()
     const emptyQuery = trimmedQuery !== "" ? trimmedQuery : "*"
     
-    setSubmittedQuery(emptyQuery)
-    navigate(`/search?query=${encodeURIComponent(emptyQuery)}`)
-    // setSubmittedQuery(searchQuery)
-    // setSearchQuery(e.target.value)
+    setSubmittedQuery(emptyQuery);
+    navigate(`/search?query=${encodeURIComponent(emptyQuery)}`);
   }
 
   return (
@@ -50,7 +56,6 @@ const SearchPage = () => {
             placeholder="Enter search value"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            // onChange={(e) => setSearchQuery(e.target.value)}
           />
           <button className="search-button" type="submit">
             {"Search"}
@@ -59,7 +64,6 @@ const SearchPage = () => {
         </form>
       </div>
       <div className="search-result">
-        {/* <SearchResults query={searchQuery} /> */}
         {!submittedQuery && (
           <div className="no-result">
             <p className="upper-text">
