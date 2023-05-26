@@ -1,19 +1,20 @@
 import "../pages/MainPage.css"
 
-import React from "react"
+import React, { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { UserAuth } from "../context/AuthContext";
 
 const MainPage = () => {
   const navigate = useNavigate()
+  const { user } = UserAuth();
 
-  const handleLogin = () => {
-    try {
-      // await login();
-      navigate("/auth/signin")
-    } catch (error: any) {
-      console.log(error.message)
-    }
-  }
+    const handleLogin = () => {
+      if (user) {
+        navigate("/search");
+      } else {
+        navigate("/auth/signin");
+      }
+    };
 
   return (
     <div className="mainPage">
@@ -23,8 +24,6 @@ const MainPage = () => {
           {"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do"}
           {"eiusmod tempor incididunt u"}
         </p>
-        {/* <p className="descText2">adipiscing elit, sed do eiusmod tempor</p> 
-                <p className="descText3">incididunt u</p> */}
         <button onClick={handleLogin} className="loginButton">
           {"Login"}
         </button>
