@@ -1,25 +1,28 @@
-import "../pages/SignIn.css"
+import "./SignIn.css"
 
 import React, { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-
-import { UserAuth } from "../context/AuthContext"
+import { UserAuth } from "../../context/AuthContext"
+import Loading from "src/components/Loading/Loading"
 
 const SignIn = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false);
   const { signIn } = UserAuth()
   const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError("")
+    setLoading(true);
 
     if (!email || !password) {
       setError(
         "Login failed! Please, check your email and password and try again.",
       )
+      setLoading(false);
 
       return
     }
@@ -32,18 +35,19 @@ const SignIn = () => {
         "Login failed! Please, check your email and password and try again.",
       )
     }
-  }
+    setLoading(false);
+  };
 
   return (
     <div className="main">
       <div className={`main-container-signin ${error ? "error-signin" : ""}`}>
         <div className="container-signin">
           <div className="signin-container">
-            <div className="text-signin">{"LogIn"}</div>
+            <div className="text-signin">LogIn</div>
 
             <form onSubmit={handleSubmit}>
               <div className="data-signin">
-                <label>{"Email"}</label>
+                <label>Email</label>
                 <input
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
@@ -52,7 +56,7 @@ const SignIn = () => {
                 />
               </div>
               <div className="data-signin">
-                <label>{"Password"}</label>
+                <label>Password</label>
                 <input
                   onChange={(e) => setPassword(e.target.value)}
                   type="password"
@@ -62,8 +66,8 @@ const SignIn = () => {
               </div>
               {error && <div className="error-message-signin">{error}</div>}
               <div className="btn-signin">
-                <button type="submit" disabled={!email || !password}>
-                  {"Login"}
+                <button type="submit" disabled={!email || !password || loading}>
+                  {loading ? <Loading /> : "Login"}
                 </button>
               </div>
 

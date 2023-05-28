@@ -1,0 +1,50 @@
+.notFound-container {
+    margin: calc((100vh - 2 * 124px) / 2) auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+.title-404{
+  width: 124px;
+  height: 98px;
+
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 72px;
+  line-height: 98px;
+
+  color: #000000;
+}
+.page-not-found{
+  width: 118px;
+  height: 22px;
+  margin-bottom: 19px;
+  margin-top: -20px;
+
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+ 
+  color: #9F9F9F;
+}
+.back-button{
+  width: 158px;
+  height: 48px;
+
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+
+  text-decoration: none;
+  text-transform: none;
+  background-color: #D8E7FF;
+  border-radius: 24px;
+  color: #000000;
+}

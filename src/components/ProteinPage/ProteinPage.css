@@ -1,0 +1,124 @@
+.protein-container {
+    margin: 72px 130px;
+  }
+  .protein-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 24px;
+    margin-bottom: 12px;
+  }
+  .protein-subheader {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+    justify-content: space-between;
+    align-items: flex-start;
+
+  }
+  .protein-main {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 24px;
+    justify-content: flex-start;
+    align-items: center;
+  }
+ .proteinId{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 30px;
+    color: #000000;
+ }
+ .scientificNameProtein{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 12px;
+    gap: 10px;
+    background: #D8E7FF;
+    border-radius: 12px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #2B2B2B;
+    text-align: initial;
+ }
+ .protein{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    color: #616161;
+ }
+ .description{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #2B2B2B;
+ }
+ .protein-genes{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    color: #616161;
+ }
+ .genesName{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #2B2B2B;
+ }
+
+ .protein-main a{
+   height: 40px;
+   border-radius: 0px;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 600;
+   font-size: 16px;
+   line-height: 19px;
+ }
+ .active-details {
+   width: 100px;
+   color: #3C86F4;
+   background: #FFFFFF;
+   border-bottom: 2px solid #3C86F4;
+ }
+ .active-feature{
+   width: 163px;
+   color: #3C86F4;
+   background: #FFFFFF;
+   border-bottom: 2px solid #3C86F4;
+ }
+ .active-publications{
+   width: 139px;
+   color: #3C86F4;
+   background: #FFFFFF;
+   border-bottom: 2px solid #3C86F4;
+ }
+ .not-active-details{
+   width: 100px;
+   color: #9F9F9F;
+ }
+ .not-active-feature{
+   width: 163px;
+   color: #9F9F9F;
+ }
+ .not-active-publications{
+   width: 139px;
+   color: #9F9F9F;
+ }

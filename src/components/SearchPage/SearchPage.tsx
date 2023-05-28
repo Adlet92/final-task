@@ -1,17 +1,16 @@
-import "../pages/SearchPage.css"
+import "./SearchPage.css"
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-
-import { UserAuth } from "../context/AuthContext"
-import SearchResults from "./SearchResults"
+import SearchResults from "../SearchResults/SearchResults"
+import Header from "src/components/Header/Header"
 
 const SearchPage = () => {
-  const { user, logout } = UserAuth()
-  const [searchQuery, setSearchQuery] = useState("")
-  const [submittedQuery, setSubmittedQuery] = useState("")
-  const navigate = useNavigate()
+  const [searchQuery, setSearchQuery] = useState("");
+  const [submittedQuery, setSubmittedQuery] = useState("");
+  const navigate = useNavigate();
   const location = useLocation();
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -20,16 +19,22 @@ const SearchPage = () => {
     setSubmittedQuery(query || "");
   }, [location.search]);
 
-  const handleLogout = async () => {
-    try {
-      await logout()
-      navigate("/")
-    } catch (error) {
-      console.log(error.message)
+  useEffect(() => {
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
     }
-  }
+  }, []);
 
-  const handleSearch = (e) => {
+  // const handleLogout = async () => {
+  //   try {
+  //     await logout()
+  //     navigate("/")
+  //   } catch (error) {
+  //     console.log(error.message)
+  //   }
+  // }
+
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const trimmedQuery = searchQuery.trim()
     const emptyQuery = trimmedQuery !== "" ? trimmedQuery : "*"
@@ -40,17 +45,11 @@ const SearchPage = () => {
 
   return (
     <div className="search-page">
-      <div className="header">
-        <div className="frame4">
-          <div className="account-label">{user && user.email}</div>
-          <button className="logout-button" onClick={handleLogout}>
-            {"Log Out"}
-          </button>
-        </div>
-      </div>
+      <Header/>
       <div className="search-bar">
         <form onSubmit={handleSearch}>
           <input
+            ref={searchInputRef}
             type="text"
             className="search-input"
             placeholder="Enter search value"

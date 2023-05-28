@@ -1,16 +1,19 @@
-import "../pages/SearchResults.css"
+import "./SearchResults.css"
 
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import { Link, useLocation, useSearchParams } from "react-router-dom"
-import SortIcon from "../assets/sortIcon.svg";
+import { Link } from "react-router-dom"
+import SortIcon from "../../assets/sortIcon.svg";
+import Loading from "src/components/Loading/Loading";
 
 const SearchResults = ({ query }) => {
 
   const [results, setResults] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const apiUrl = `https://rest.uniprot.org/uniprotkb/search?fields=accession,reviewed,id,protein_name,gene_names,organism_name,length,ft_peptide,cc_subcellular_location&query=${query}`;
         const response = await axios.get(apiUrl);
@@ -18,17 +21,24 @@ const SearchResults = ({ query }) => {
         setResults(response.data.results)
       } catch (error) {
         console.log(error)
+      } finally {
+        setIsLoading(false); 
       }
     }
 
     fetchData()
   }, [query])
 
+
+  if (isLoading) {
+    return <Loading />; 
+  }
+
   if (results.length === 0) {
     return (
       <div className="no-result">
-        <p className="bottom-text">Please start a search to display results</p>
-        <p className="upper-text">No data to display</p>
+        <p className="bottom-text">Please start your new search to display results</p>
+        <p className="upper-text">No data was found</p>
       </div>
     )
   }
@@ -61,7 +71,6 @@ const SearchResults = ({ query }) => {
               {"Length"}<img src={SortIcon}/>
               </th>
           </tr>
-          {/* <tbody> */}
           {results.map((item, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
@@ -94,7 +103,6 @@ const SearchResults = ({ query }) => {
               <td className="lengthLast">{item.sequence.length}</td>
             </tr>
           ))}
-          {/* </tbody> */}
         </table>
       </div>
     </div>
