@@ -25,15 +25,6 @@ const SearchPage = () => {
     }
   }, []);
 
-  // const handleLogout = async () => {
-  //   try {
-  //     await logout()
-  //     navigate("/")
-  //   } catch (error) {
-  //     console.log(error.message)
-  //   }
-  // }
-
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const trimmedQuery = searchQuery.trim()

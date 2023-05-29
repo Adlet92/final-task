@@ -1,10 +1,12 @@
 import "./ProteinPage.css"
 
 import React, { useEffect, useState } from "react"
-import axios from "axios"
-import { Link, Route, Routes, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import DetailsPage from "src/components/ProteinPage/DetailsPage/DetailsPage";
-import Header from "src/components/Header/header";
+import Header from "src/components/Header/Header";
+import { fetchProteinDetails } from "src/api/api";
+import Loading from "src/components/Loading/Loading";
+import Publications from "src/components/ProteinPage/Publications/Publications";
 
 
 export interface ProteinPageProps {
@@ -14,19 +16,24 @@ export interface ProteinPageProps {
     genes: [{ geneName: { value: string }; synonyms?: [{ value: string }] }];
   }
 
+enum Tab {
+    Details = "details",
+    Feature = "feature",
+    Publications = "publications",
+}
 
 const ProteinPage = () => {
     const { proteinId } = useParams();
     const [results, setResults] = useState<ProteinPageProps | null>(null);
-    const [activeLink, setActiveLink] = useState("");
+    const [activeTab, setActiveTab] = useState<Tab | null>(null);
+    // const location = useLocation();
 
     useEffect(() => {
         const fetchData = async () => {
         try {
-            const apiUrl = `https://rest.uniprot.org/uniprotkb/${proteinId}`;
-            const response = await axios.get(apiUrl);
-
-            setResults(response.data)
+            const proteinDetails = await fetchProteinDetails(proteinId);
+            setResults(proteinDetails);
+            
         } catch (error) {
             console.log(error)
         }
@@ -35,9 +42,22 @@ const ProteinPage = () => {
         fetchData()
     }, [proteinId])
 
-    const handleLinkClick = (link: string) => {
-        setActiveLink(link);
+    useEffect(() => {
+        const tabFromPath = location.pathname.split("/").pop();
+        if (tabFromPath && Object.values(Tab).includes(tabFromPath as Tab)) {
+          setActiveTab(tabFromPath as Tab);
+        } else {
+          setActiveTab(null);
+        }
+      }, [location]);
+
+    const handleLinkClick = (tab: Tab) => {
+        setActiveTab(tab);
       };
+
+    if (!results) {
+        return <Loading />; 
+    }
 
 
     return (
@@ -78,34 +98,35 @@ const ProteinPage = () => {
             </div>
             <div className="protein-main">
                 <Link
-                    to={`./details`}
-                    className={activeLink === "details" ? "active-details" : "not-active-details"}
-                    onClick={() => handleLinkClick("details")}
+                    to={Tab.Details}
+                    className={activeTab === Tab.Details ? "active-details" : "not-active-details"}
+                    onClick={() => handleLinkClick(Tab.Details)}
                     >
-                        Details
+                    Details
                 </Link>
                 <Link
-                    to={`./feature`}
-                    className={activeLink === "feature" ? "active-feature" : "not-active-feature"}
-                    onClick={() => handleLinkClick("feature")}
+                    to={Tab.Feature}
+                    className={activeTab === Tab.Feature ? "active-feature" : "not-active-feature"}
+                    onClick={() => handleLinkClick(Tab.Feature)}
                     >
-                        Feature Viewer
+                    Feature Viewer
                 </Link>
                 <Link
-                    to={`./publications`}
-                    className={activeLink === "publications" ? "active-publications" : "not-active-publications"}
-                    onClick={() => handleLinkClick("publications")}
+                    to={Tab.Publications}
+                    className={activeTab === Tab.Publications ? "active-publications" : "not-active-publications"}
+                    onClick={() => handleLinkClick(Tab.Publications)}
                     >
-                        Publications
+                    Publications
                 </Link>
             </div>
-            <Routes>
-                <Route path="details" element={<DetailsPage proteinData={results}/>}/>
-                <Route path="feature"/>
-                <Route path="publications"/>
-            </Routes>
+            <div className="tab-pane">
+                {activeTab === Tab.Details && <DetailsPage proteinData={results} />}
+                {/* {activeTab === Tab.Feature && <Publications />} */}
+                {activeTab === Tab.Publications && <Publications />}
+            </div>
       </div>
     )
 }
 
 export default ProteinPage
+

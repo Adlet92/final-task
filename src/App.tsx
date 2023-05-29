@@ -1,6 +1,6 @@
 import "./App.css"
 
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useParams } from "react-router-dom"
 
 import MainPage from "src/components/MainPage/MainPage"
 import ProtectedRoute from "src/components/ProtectedRoute"
@@ -11,6 +11,8 @@ import SignUp from "src/components/SignUp/SignUp"
 import { AuthContextProvider } from "../src/context/AuthContext"
 import ProteinPage from "src/components/ProteinPage/ProteinPage"
 import PageNotFound from "src/components/PageNotFound/PageNotFound"
+import DetailsPage from "src/components/ProteinPage/DetailsPage/DetailsPage"
+
 
 const App = () => {
   return (
@@ -28,11 +30,25 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+          {/* <Route
+            path="/protein/:proteinId"
+            element={
+              <ProtectedRoute>
+               <ProteinPage/>
+              </ProtectedRoute>
+            }
+          /> */}
+          <Route path="/protein/:proteinId" element={<ProteinPage />}>
+            <Route path="details" element={<ProteinPage />} />
+            <Route path="feature" element={<ProteinPage />} />
+            <Route path="publications" element={<ProteinPage />} />
+          </Route>
+
           <Route
             path="/protein/:proteinId/*"
             element={
               <ProtectedRoute>
-                <ProteinPage />
+                <PageNotFound />
               </ProtectedRoute>
             }
           />

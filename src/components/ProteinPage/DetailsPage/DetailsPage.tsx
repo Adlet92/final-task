@@ -1,6 +1,8 @@
-import React, { useRef }  from "react"
+import React, { useEffect, useRef, useState }  from "react"
 import copyIcon from "../../../assets/copyIcon.svg";
 import './DetailsPage.css'
+import Loading from "src/components/Loading/Loading";
+
 
 interface DetailsPageProps {
     proteinData: {
@@ -18,6 +20,17 @@ interface DetailsPageProps {
 
 const DetailsPage: React.FC<DetailsPageProps> = ({ proteinData }) => {
     const sequenceRef = useRef<HTMLDivElement>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+        setIsLoading(false);
+        }, 2000);
+
+        return () => {
+        clearTimeout(timer);
+        };
+    }, []);
 
     const handleCopyClick = () => {
         if (sequenceRef.current) {
@@ -33,6 +46,9 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ proteinData }) => {
         return `${month} ${day} ${year}`;
       };
       
+    if (isLoading) {
+        return <Loading />;
+    }
    
     return (
         <>

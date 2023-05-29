@@ -5,20 +5,47 @@ import axios from "axios"
 import { Link } from "react-router-dom"
 import SortIcon from "../../assets/sortIcon.svg";
 import Loading from "src/components/Loading/Loading";
+import { fetchSearchResults } from "src/api/api";
 
-const SearchResults = ({ query }) => {
 
-  const [results, setResults] = useState([])
+interface SubcellularLocation {
+  location: { value: string };
+}
+
+interface Organism {
+  scientificName: string;
+}
+
+interface Comment {
+  subcellularLocations: SubcellularLocation[];
+}
+
+interface Gene {
+  geneName: { value: string };
+  synonyms: { value: string }[];
+}
+
+interface ResultsData {
+  primaryAccession: string;
+  uniProtkbId: string;
+  genes: Gene[];
+  organism: Organism;
+  comments: Comment[];
+  sequence: string;
+}
+
+const SearchResults = ({ query }: { query: string }) => {
+
+  const [results, setResults] = useState<ResultsData[]>([])
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const apiUrl = `https://rest.uniprot.org/uniprotkb/search?fields=accession,reviewed,id,protein_name,gene_names,organism_name,length,ft_peptide,cc_subcellular_location&query=${query}`;
-        const response = await axios.get(apiUrl);
-
-        setResults(response.data.results)
+        const searchResults = await fetchSearchResults(query);
+        setResults(searchResults);
+        
       } catch (error) {
         console.log(error)
       } finally {
