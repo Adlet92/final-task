@@ -1,7 +1,7 @@
 import "./ProteinPage.css"
 
 import React, { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import DetailsPage from "src/components/ProteinPage/DetailsPage/DetailsPage";
 import Header from "src/components/Header/Header";
 import { fetchProteinDetails } from "src/api/api";
@@ -26,7 +26,7 @@ const ProteinPage = () => {
     const { proteinId } = useParams();
     const [results, setResults] = useState<ProteinPageProps | null>(null);
     const [activeTab, setActiveTab] = useState<Tab | null>(null);
-    // const location = useLocation();
+    const location = useLocation();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -50,6 +50,20 @@ const ProteinPage = () => {
           setActiveTab(null);
         }
       }, [location]);
+
+
+      useEffect(() => {
+        const handlePopstate = () => {
+          // Refresh the page when the user presses the back button
+          window.location.reload();
+        };
+    
+        window.addEventListener("popstate", handlePopstate);
+    
+        return () => {
+          window.removeEventListener("popstate", handlePopstate);
+        };
+      }, []);
 
     const handleLinkClick = (tab: Tab) => {
         setActiveTab(tab);

@@ -177,3 +177,8 @@ tr{
     color: #2B2B2B;
     text-align: initial;
 }
+.active{
+    background: rgba(60, 134, 244, 0.12);
+}
+
+

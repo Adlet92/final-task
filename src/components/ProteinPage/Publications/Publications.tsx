@@ -4,6 +4,7 @@ import { fetchProteinPublications } from "src/api/api";
 import Icon from '../../../assets/iconExternal.svg'
 import { v4 as uuidv4 } from "uuid";
 import './Publications.css'
+import Loading from "src/components/Loading/Loading";
 
 type Link = {
   database: string;
@@ -32,19 +33,26 @@ interface PublicationInfo {
 const Publications = () => {
   const { proteinId } = useParams();
   const [publicationsInfo, setPublicationsInfo] = useState<PublicationResponse>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const fetchPublications = async () => {
     try {
       const proteinPublications = await fetchProteinPublications(proteinId);
       setPublicationsInfo(proteinPublications);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     fetchPublications();
   }, [proteinId]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
         <div className="publication-container">

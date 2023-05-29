@@ -1,9 +1,9 @@
 import "./SearchResults.css"
 
 import React, { useEffect, useState } from "react"
-import axios from "axios"
 import { Link } from "react-router-dom"
 import SortIcon from "../../assets/sortIcon.svg";
+import SortIconBlue from "../../assets/sortIconBlue.svg";
 import Loading from "src/components/Loading/Loading";
 import { fetchSearchResults } from "src/api/api";
 
@@ -34,10 +34,15 @@ interface ResultsData {
   sequence: string;
 }
 
+type SortOrder = "asc" | "desc" | "default";
+type SortKey = "accession" | "id" | "gene" | "organism_name" | "length";
+
 const SearchResults = ({ query }: { query: string }) => {
 
   const [results, setResults] = useState<ResultsData[]>([])
   const [isLoading, setIsLoading] = useState(false);
+  const [sortKey, setSortKey] = useState<SortKey | null>(null);
+  const [sortOrder, setSortOrder] = useState<SortOrder>("default");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,6 +61,58 @@ const SearchResults = ({ query }: { query: string }) => {
     fetchData()
   }, [query])
 
+  const handleSort = (key: SortKey) => {
+    if (sortKey === key) {
+      setSortOrder((prevSortOrder) => {
+        if (prevSortOrder === "asc") return "desc";
+        if (prevSortOrder === "desc") return "default";
+        return "asc";
+      });
+    } else {
+      // If a different key is clicked, set it as the new sort key and reset the sort order
+      setSortKey(key);
+      setSortOrder("asc");
+    }
+  };
+
+  const sortResults = (results: ResultsData[]) => {
+    const sortedResults = [...results];
+  
+    // Apply sorting based on the sort key and order
+    sortedResults.sort((a, b) => {
+      if (sortOrder === "default") {
+        // Sort by index when sortOrder is "default"
+        return results.indexOf(a) - results.indexOf(b);
+      }
+  
+      const aValue = getValue(a, sortKey);
+      const bValue = getValue(b, sortKey);
+  
+      if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
+      if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
+  
+    return sortedResults;
+  };
+  
+
+  const getValue = (data: ResultsData, key: SortKey): string | number => {
+    switch (key) {
+      case "accession":
+        return data.primaryAccession;
+      case "id":
+        return data.uniProtkbId;
+      case "gene":
+        return data.genes[0]?.geneName?.value ?? "";
+      case "organism_name":
+        return data.organism.scientificName;
+      case "length":
+        return data.sequence.length;
+      default:
+        return "";
+    }
+  };
 
   if (isLoading) {
     return <Loading />; 
@@ -70,35 +127,57 @@ const SearchResults = ({ query }: { query: string }) => {
     )
   }
 
+const sortedResults = sortResults(results);
   return (
     <div>
       <div className="results-number">
-        <p>{`${results.length} Search results found for "${query}" `}</p>
+        <p>{`${sortedResults.length} Search results found for "${query}" `}</p>
     </div>
       <div className="table-container">
         <table>
           <tr>
             <th className="number">{"#"}</th>
             <th className="entry">
-              {"Entry"}<img src={SortIcon}/>
+                Entry
+              <img 
+                  src={sortKey === "accession" ? SortIconBlue : SortIcon}
+                  onClick={() => handleSort("accession")}
+                  className={sortKey === "accession" ? "active" : ""}/>
               </th>
             <th className="entry-name">
-              {"Entry names"}<img src={SortIcon}/>
+                Entry names
+              <img 
+                  src={sortKey === "id" ? SortIconBlue : SortIcon}
+                  onClick={() => handleSort("id")}
+                  className={sortKey === "id" ? "active" : ""}/>
               </th>
             <th className="genes">
-              {"Genes "}<img src={SortIcon}/>
+                Genes
+              <img 
+                  src={sortKey === "gene" ? SortIconBlue : SortIcon}
+                  onClick={() => handleSort("gene")}
+                  className={sortKey === "gene" ? "active" : ""}/>
               </th>
             <th className="organism">
-              {"Organism"}<img src={SortIcon}/>
+                Organism
+              <img 
+                  src={sortKey === "organism_name" ? SortIconBlue : SortIcon}
+                  onClick={() => handleSort("organism_name")}
+                  className={sortKey === "organism_name" ? "active" : ""}/>
               </th>
             <th className="location">
-              {"Subcellular Location"}
+                Subcellular Location
               </th>
             <th className="length">
-              {"Length"}<img src={SortIcon}/>
+                Length
+              <img 
+                  src={sortKey === "length" ? SortIconBlue : SortIcon} 
+                  onClick={() => handleSort("length")}
+                  className={sortKey === "length" ? "active" : ""}
+                  />
               </th>
           </tr>
-          {results.map((item, index) => (
+          {sortedResults.map((item, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
               <td className="primaryAccession"><Link to={`/protein/${item.primaryAccession}`}>
