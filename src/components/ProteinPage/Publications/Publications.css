@@ -98,7 +98,7 @@
     /* margin-right: 2px; */
   }
   .containerLink{
-    width: 88px;
+    /* width: 88px; */
     height: 24px;
     left: 180px;
     top: 470px;
@@ -110,6 +110,10 @@
     font-size: 12px;
     line-height: 16px;
     color: #3C86F4;
+  }
+  .inactiveLink{
+    border: 1px solid #9F9F9F;
+    color: #9F9F9F;
   }
   .links-container img {
     margin-left: 4px;

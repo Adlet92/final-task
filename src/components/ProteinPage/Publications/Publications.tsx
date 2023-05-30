@@ -26,6 +26,11 @@ interface PublicationInfo {
     authors: string[];
     citationCrossReferences: Link[];
     title: string;
+    journal: string;
+    volume: string;
+    firstPage: string;
+    lastPage: string;
+    publicationDate: string;
   };
   references: Reference[];
 }
@@ -54,12 +59,63 @@ const Publications = () => {
     return <Loading />;
   }
 
+  if (!publicationsInfo || publicationsInfo.results.length === 0) {
+    return <div>No publications available.</div>;
+  }
+
+  const renderLinks = (citationCrossReferences: Link[], citation: PublicationInfo['citation']) => {
+    const hasDOILink = citationCrossReferences.some((link) => link.database === "DOI");
+  
+    return citationCrossReferences.map((link, index) => {
+      if (link.database === "PubMed") {
+        return (
+          <div key={index} className="containerLink">
+            <a href={`https://pubmed.ncbi.nlm.nih.gov/${link.id}`} target="_blank" rel="noopener noreferrer">
+              PubMed
+            </a>
+            <img src={Icon} alt="Icon" />
+          </div>
+        );
+      } else if (link.database === "DOI") {
+        return (
+          <div key={index} className="containerLink">
+            <a href={`https://dx.doi.org/10.1038/${link.id}`} target="_blank" rel="noopener noreferrer">
+              {`${citation.journal} ${citation.volume}:${citation.firstPage}-${citation.lastPage} (${citation.publicationDate})`}
+            </a>
+            <img src={Icon} alt="Icon" />
+          </div>
+        );
+      } else if (link.database === "Europe PMC") {
+        return (
+          <div key={index} className="containerLink">
+            <a href={`https://europepmc.org/article/MED/${link.id}`} target="_blank" rel="noopener noreferrer">
+              Europe PMC
+            </a>
+            <img src={Icon} alt="Icon" />
+          </div>
+        );
+      } else {
+        return null;
+      }
+    }).concat(!hasDOILink ? (
+      <div key="inactiveDOI" className="containerLink inactiveLink">
+        <span>
+          {`${citation.journal} ${citation.volume}:${citation.firstPage}-${citation.lastPage} (${citation.publicationDate})`}
+        </span>
+      </div>
+    ) : null);
+  };
+  
+  
+
   return (
         <div className="publication-container">
           {publicationsInfo?.results.map((publication) => (
             <div key={uuidv4()} className="public">
               <div className="title-publication">{publication.citation.title}</div>
+              {publication.citation.authors && (
               <div className="authors-publication">{publication.citation.authors.join(", ")}</div>
+                )}
               <div className="categories-publication">
                 Categories: {publication.references[0].sourceCategories.join(", ")}
               </div>
@@ -80,14 +136,7 @@ const Publications = () => {
                   </p> 
                   </div>
                   <div className="links-container">
-                  {publication.citation.citationCrossReferences.map((link, index) => (
-                    <div key={index} className="containerLink">
-                      <a href={link.database + link.id} target="_blank" rel="noopener noreferrer">
-                        {link.database}
-                      </a>
-                      <img src={Icon} alt="Icon" />
-                    </div>
-                  ))}
+                     {renderLinks(publication.citation.citationCrossReferences, publication.citation)}
               </div>
             </div>
           ))}
