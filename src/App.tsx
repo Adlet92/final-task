@@ -30,14 +30,6 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          {/* <Route
-            path="/protein/:proteinId"
-            element={
-              <ProtectedRoute>
-               <ProteinPage/>
-              </ProtectedRoute>
-            }
-          /> */}
           <Route path="/protein/:proteinId" element={<ProteinPage />}>
             <Route path="details" element={<ProteinPage />} />
             <Route path="feature" element={<ProteinPage />} />

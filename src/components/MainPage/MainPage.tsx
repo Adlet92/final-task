@@ -3,6 +3,7 @@ import "./MainPage.css"
 import React, { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { UserAuth } from "../../context/AuthContext";
+import { routes } from "src/utils/routes";
 
 const MainPage = () => {
   const navigate = useNavigate()
@@ -10,9 +11,9 @@ const MainPage = () => {
 
     const handleLogin = () => {
       if (user) {
-        navigate("/search");
+        navigate(routes.search);
       } else {
-        navigate("/auth/signin");
+        navigate(routes.signin);
       }
     };
 
@@ -25,7 +26,7 @@ const MainPage = () => {
           {"eiusmod tempor incididunt u"}
         </p>
         <button onClick={handleLogin} className="loginButton">
-          {"Login"}
+          Login
         </button>
       </div>
     </div>

@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { UserAuth } from "../../context/AuthContext"
 import Loading from "src/components/Loading/Loading"
+import { routes } from "src/utils/routes"
 
 const SignIn = () => {
   const [email, setEmail] = useState("")
@@ -29,7 +30,7 @@ const SignIn = () => {
 
     try {
       await signIn(email, password)
-      navigate("/search")
+      navigate(routes.search)
     } catch {
       setError(
         "Login failed! Please, check your email and password and try again.",
@@ -72,9 +73,9 @@ const SignIn = () => {
               </div>
 
               <div className="signin-link">
-                {"Don’t have an account?"}{" "}
-                <Link to="/auth/signup">
-                  <label className="slide-signin">{"Sign up"}</label>
+                Don’t have an account?{" "}
+                <Link to={routes.signup}>
+                  <label className="slide-signin">Sign up</label>
                 </Link>
               </div>
             </form>

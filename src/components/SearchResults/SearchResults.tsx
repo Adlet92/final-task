@@ -1,11 +1,12 @@
 import "./SearchResults.css"
 
 import React, { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import SortIcon from "../../assets/sortIcon.svg";
 import SortIconBlue from "../../assets/sortIconBlue.svg";
 import Loading from "src/components/Loading/Loading";
 import { fetchSearchResults } from "src/api/api";
+import {routes} from "src/utils/routes"
 
 
 interface SubcellularLocation {
@@ -43,23 +44,34 @@ const SearchResults = ({ query }: { query: string }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [sortKey, setSortKey] = useState<SortKey | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>("default");
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const searchResults = await fetchSearchResults(query);
-        setResults(searchResults);
-        
-      } catch (error) {
-        console.log(error)
-      } finally {
-        setIsLoading(false); 
+    useEffect(() => {
+      const fetchData = async () => {
+        setIsLoading(true);
+        try {
+          const searchResults = await fetchSearchResults(query);
+          setResults(searchResults);
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+    
+      fetchData();
+    }, [query, sortOrder, sortKey]);
+
+    useEffect(() => {
+      const params = new URLSearchParams(searchParams);
+      const urlSortOrder = params.get("sortOrder") as SortOrder;
+      const urlSortKey = params.get("sortKey") as SortKey;
+      if (urlSortOrder && urlSortKey) {
+        setSortOrder(urlSortOrder);
+        setSortKey(urlSortKey);
       }
-    }
-
-    fetchData()
-  }, [query])
+    }, [searchParams]);
+  
 
   const handleSort = (key: SortKey) => {
     if (sortKey === key) {
@@ -74,6 +86,27 @@ const SearchResults = ({ query }: { query: string }) => {
       setSortOrder("asc");
     }
   };
+
+    useEffect(() => {
+      const params = new URLSearchParams(searchParams);
+      if (sortKey && sortOrder) {
+        params.set("sort", `${sortKey} ${sortOrder}`);
+      } else {
+        params.delete("sort");
+      }
+      setSearchParams(params.toString());
+    }, [sortKey, sortOrder]);
+    
+    useEffect(() => {
+      const params = new URLSearchParams(searchParams);
+      console.log(params)
+      const sortParam = params.get("sort");
+      if (sortParam) {
+        const [key, order] = sortParam.split(" ");
+        setSortKey(key as SortKey);
+        setSortOrder(order as SortOrder);
+      }
+    }, [searchParams]);
 
   const sortResults = (results: ResultsData[]) => {
     const sortedResults = [...results];
@@ -97,7 +130,11 @@ const SearchResults = ({ query }: { query: string }) => {
   };
   
 
-  const getValue = (data: ResultsData, key: SortKey): string | number => {
+  const getValue = (data: ResultsData, key: SortKey | null): string | number => {
+    if (key === null) {
+      return "";
+    }
+  
     switch (key) {
       case "accession":
         return data.primaryAccession;
@@ -113,6 +150,7 @@ const SearchResults = ({ query }: { query: string }) => {
         return "";
     }
   };
+  
 
   if (isLoading) {
     return <Loading />; 
@@ -135,6 +173,7 @@ const sortedResults = sortResults(results);
     </div>
       <div className="table-container">
         <table>
+          <thead>
           <tr>
             <th className="number">{"#"}</th>
             <th className="entry">
@@ -177,10 +216,13 @@ const sortedResults = sortResults(results);
                   />
               </th>
           </tr>
+          </thead>
+          <tbody>
           {sortedResults.map((item, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
-              <td className="primaryAccession"><Link to={`/protein/${item.primaryAccession}`}>
+              {/* <td className="primaryAccession"><Link to={`/protein/${item.primaryAccession}`}> */}
+              <td className="primaryAccession"><Link to={`${routes.proteinRoute}/${item.primaryAccession}`}>
                     {item.primaryAccession}
                   </Link>
               </td>
@@ -209,6 +251,7 @@ const sortedResults = sortResults(results);
               <td className="lengthLast">{item.sequence.length}</td>
             </tr>
           ))}
+          </tbody>
         </table>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 
 import { UserAuth } from "../../context/AuthContext"
 import Loading from "src/components/Loading/Loading"
+import { routes } from "src/utils/routes"
 
 const SignUp = () => {
   const [email, setEmail] = useState("")
@@ -65,7 +66,7 @@ const SignUp = () => {
 
     try {
       await createUser(email, password)
-      navigate("/search")
+      navigate(routes.search);
     } catch (error_: any) {
       if (error_.code === "auth/email-already-in-use") {
         setErrors(["User already exists. Please sign in instead."])
@@ -99,7 +100,7 @@ const SignUp = () => {
       <div className={`main-container ${errors.length ? "error" : ""}`}>
         <div className="container">
           <div className="signup-container">
-            <div className="text">{"Sign up"}</div>
+            <div className="text">Sign up</div>
 
             <form onSubmit={handleSubmit}>
               <div className="data">
@@ -150,9 +151,9 @@ const SignUp = () => {
                 <button type="submit" disabled={loading}>{loading ? <Loading/> : "Create Account"}</button>
               </div>
               <div className="signup-link">
-                {"Already have an account?"}{" "}
-                <Link to="/auth/signin">
-                  <label className="slide">{"Login"}</label>
+                Already have an account?{" "}
+                <Link to={routes.signin}>
+                  <label className="slide">Login</label>
                 </Link>
               </div>
             </form>

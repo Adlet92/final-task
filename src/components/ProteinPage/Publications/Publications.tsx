@@ -63,8 +63,12 @@ const Publications = () => {
     return <div>No publications available.</div>;
   }
 
-  const renderLinks = (citationCrossReferences: Link[], citation: PublicationInfo['citation']) => {
+  const renderLinks = (citationCrossReferences: Link[] = [], citation: PublicationInfo['citation']) => {
     const hasDOILink = citationCrossReferences.some((link) => link.database === "DOI");
+
+    if (citationCrossReferences.length === 0) {
+      return null;
+    }
   
     return citationCrossReferences.map((link, index) => {
       if (link.database === "PubMed") {
@@ -112,14 +116,19 @@ const Publications = () => {
         <div className="publication-container">
           {publicationsInfo?.results.map((publication) => (
             <div key={uuidv4()} className="public">
-              <div className="title-publication">{publication.citation.title}</div>
+              {publication.citation.title && (
+                <div className="title-publication">{publication.citation.title}</div>
+              )}
               {publication.citation.authors && (
               <div className="authors-publication">{publication.citation.authors.join(", ")}</div>
                 )}
-              <div className="categories-publication">
-                Categories: {publication.references[0].sourceCategories.join(", ")}
-              </div>
-              <div className="cited">
+              {publication.references[0].sourceCategories && (
+                 <div className="categories-publication">
+                 Categories: {publication.references[0].sourceCategories.join(", ")}
+                  </div>
+              )}
+               {publication.references[0].referencePositions && (
+                <div className="cited">
                 <p className="cited-for">
                   Cited for:{" "}
                   <span className="reference-positions">
@@ -127,14 +136,17 @@ const Publications = () => {
                   </span>
                 </p>
               </div>
-              <div className="source-name">
+               )}
+              {publication.references[0].source.name && (
+                <div className="source-name">
                 <p className="source">
                   Source name:{" "}
                   <span>
                     {publication.references[0].source.name}
                   </span>
                   </p> 
-                  </div>
+                </div>
+              )}
                   <div className="links-container">
                      {renderLinks(publication.citation.citationCrossReferences, publication.citation)}
               </div>

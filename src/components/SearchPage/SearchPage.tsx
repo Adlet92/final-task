@@ -1,22 +1,20 @@
 import "./SearchPage.css"
 
 import React, { useEffect, useRef, useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useSearchParams } from "react-router-dom"
 import SearchResults from "../SearchResults/SearchResults"
 import Header from "src/components/Header/Header"
 
 const SearchPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
-  const navigate = useNavigate();
-  const location = useLocation();
   const searchInputRef = useRef<HTMLInputElement>(null);
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const query = queryParams.get("query");
-    setSearchQuery(query || "");
-    setSubmittedQuery(query || "");
+    const query = searchParams.get("query") || "";
+    setSearchQuery(query);
+    setSubmittedQuery(query);
   }, [location.search]);
 
   useEffect(() => {
@@ -31,9 +29,8 @@ const SearchPage = () => {
     const emptyQuery = trimmedQuery !== "" ? trimmedQuery : "*"
     
     setSubmittedQuery(emptyQuery);
-    navigate(`/search?query=${encodeURIComponent(emptyQuery)}`);
+    setSearchParams({ query: encodeURIComponent(emptyQuery) });
   }
-
   return (
     <div className="search-page">
       <Header/>
@@ -48,7 +45,7 @@ const SearchPage = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <button className="search-button" type="submit">
-            {"Search"}
+            Search
           </button>
           <button className="filter-button" />
         </form>
@@ -57,13 +54,23 @@ const SearchPage = () => {
         {!submittedQuery && (
           <div className="no-result">
             <p className="upper-text">
-              {"Please start a search to display results"}
+              Please start a search to display results
             </p>
-            <p className="bottom-text">{"No data to display"}</p>
+            <p className="bottom-text">No data to display</p>
           </div>
         )}
         {submittedQuery && <SearchResults query={submittedQuery} />}
       </div>
+      {/* <div className="search-result">
+      {searchQuery !== "" ? (
+          <SearchResults query={searchQuery} />
+        ) : (
+          <div className="no-result">
+            <p className="upper-text">Please start a search to display results</p>
+            <p className="bottom-text">No data to display</p>
+          </div>
+        )}
+      </div> */}
     </div>
   )
 }
