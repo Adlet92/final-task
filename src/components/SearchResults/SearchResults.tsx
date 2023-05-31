@@ -48,19 +48,18 @@ const SearchResults = ({ query }: { query: string }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
-      const fetchData = async () => {
-        setIsLoading(true);
-        try {
-          const searchResults = await fetchSearchResults(query);
-          setResults(searchResults);
-        } catch (error) {
-          toast.error(error as string);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-    
-      fetchData();
+        const fetchData = async () => {
+          setIsLoading(true);
+          try {
+              const searchParams= await fetchSearchResults(query);
+              setResults(searchParams)
+          } catch (error) {
+            toast.error(error as string);
+          } finally {
+            setIsLoading(false);
+          }
+        };
+        fetchData();
     }, [query, sortOrder, sortKey]);
 
     useEffect(() => {
@@ -169,7 +168,7 @@ const sortedResults = sortResults(results);
       <div className="results-number">
         <p>{`${sortedResults.length} Search results found for "${query}" `}</p>
     </div>
-      <div className="table-container">
+      <div className="table-container" id="resultTable">
         <table>
           <thead>
           <tr>

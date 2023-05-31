@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 export const fetchSearchResults = async (query: string) => {
   const apiUrl = `https://rest.uniprot.org/uniprotkb/search?fields=accession,reviewed,id,protein_name,gene_names,organism_name,length,ft_peptide,cc_subcellular_location&query=${query}`;
-
+  
   try {
     const response = await axios.get(apiUrl);
     return response.data.results;
