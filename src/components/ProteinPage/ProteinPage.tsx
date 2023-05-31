@@ -7,7 +7,7 @@ import Header from "src/components/Header/Header";
 import { fetchProteinDetails } from "src/api/api";
 import Loading from "src/components/Loading/Loading";
 import Publications from "src/components/ProteinPage/Publications/Publications";
-import Feature from "src/components/ProteinPage/Feature/Feature";
+// import Feature from "src/components/ProteinPage/Feature/Feature";
 
 
 export interface ProteinPageProps {

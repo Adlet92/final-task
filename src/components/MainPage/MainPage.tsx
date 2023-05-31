@@ -1,6 +1,6 @@
 import "./MainPage.css"
 
-import React, { useEffect } from "react"
+import React from "react"
 import { useNavigate } from "react-router-dom"
 import { UserAuth } from "../../context/AuthContext";
 import { routes } from "src/utils/routes";

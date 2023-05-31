@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchProteinPublications } from "src/api/api";
 import Icon from '../../../assets/iconExternal.svg'

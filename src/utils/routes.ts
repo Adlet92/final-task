@@ -3,4 +3,5 @@ export const routes = {
     signup: "/auth/signup",
     signin: "/auth/signin",
     proteinRoute: "/protein",
+    main: "/",
   };

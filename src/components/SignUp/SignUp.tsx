@@ -110,7 +110,11 @@ const SignUp = () => {
                   onBlur={handleEmailBlur}
                   type="email"
                   placeholder="Enter your email"
-                  className={errors.includes("Email is required") ? "error-input" : ""}
+                  className={
+                    errors.includes("Email is required") || errors.includes("User already exists. Please sign in instead.")
+                      ? "error-input"
+                      : ""
+                  }
                 />
               </div>
               <div className="data">
@@ -123,7 +127,8 @@ const SignUp = () => {
                   className={errors.some(
                     (error) =>
                       error !== "Email is required" &&
-                      error !== "Passwords do not match"
+                      error !== "Passwords do not match" &&
+                      error !== "User already exists. Please sign in instead."
                   )
                     ? "error-input"
                     : ""}
