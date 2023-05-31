@@ -1,6 +1,6 @@
 import "./ProteinPage.css"
 
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useLocation, useParams } from "react-router-dom";
 import DetailsPage from "src/components/ProteinPage/DetailsPage/DetailsPage";
 import Header from "src/components/Header/Header";
@@ -8,15 +8,8 @@ import { fetchProteinDetails } from "src/api/api";
 import Loading from "src/components/Loading/Loading";
 import Publications from "src/components/ProteinPage/Publications/Publications";
 import { toast } from "react-toastify";
+import { ProteinPageProps } from "src/types/types";
 // import Feature from "src/components/ProteinPage/Feature/Feature";
-
-
-export interface ProteinPageProps {
-    uniProtkbId: string;
-    organism: { scientificName: string };
-    proteinDescription: { recommendedName: { fullName: { value: string } } };
-    genes: [{ geneName: { value: string }; synonyms?: [{ value: string }] }];
-  }
 
 enum Tab {
     Details = "details",
@@ -24,8 +17,7 @@ enum Tab {
     Publications = "publications",
 }
 
-const ProteinPage = () => {
-    // const { proteinId } = useParams();
+const ProteinPage: React.FC = () => {
     const { proteinId = "" } = useParams();
     const [results, setResults] = useState<ProteinPageProps | null>(null);
     const [activeTab, setActiveTab] = useState<Tab | null>(null);

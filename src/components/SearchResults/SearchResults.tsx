@@ -1,6 +1,6 @@
 import "./SearchResults.css"
 
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import SortIcon from "../../assets/sortIcon.svg";
 import SortIconBlue from "../../assets/sortIconBlue.svg";
@@ -42,7 +42,7 @@ type SortKey = "accession" | "id" | "gene" | "organism_name" | "length";
 const SearchResults = ({ query }: { query: string }) => {
 
   const [results, setResults] = useState<ResultsData[]>([])
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [sortKey, setSortKey] = useState<SortKey | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>("default");
   const [searchParams, setSearchParams] = useSearchParams();

@@ -1,10 +1,9 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "src/components/Header/Header";
 import "./PageNotFound.css";
 import { routes } from "src/utils/routes";
 
-const PageNotFound = () => {
+const PageNotFound: React.FC = () => {
   const navigate = useNavigate();
 
 const handleBackToSearch = () => {

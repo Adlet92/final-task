@@ -3,26 +3,17 @@ import copyIcon from "../../../assets/copyIcon.svg";
 import copyIconBlue from "../../../assets/copyIconBlue.svg";
 import './DetailsPage.css'
 import Loading from "src/components/Loading/Loading";
-
+import { ProteinPageProps } from "src/types/types";
 
 interface DetailsPageProps {
-    proteinData: {
-      sequence: {
-        length: number;
-        molWeight: number;
-        value: string;
-        crc64: string;
-      };
-      entryAudit: {
-        lastSequenceUpdateDate: string;
-      };
-    };
-}
+    proteinData: ProteinPageProps;
+  }
 
 const DetailsPage: React.FC<DetailsPageProps> = ({ proteinData }) => {
     const sequenceRef = useRef<HTMLDivElement>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isCopyClicked, setIsCopyClicked] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isCopyClicked, setIsCopyClicked] = useState<boolean>(false);
+
 
     useEffect(() => {
         const timer = setTimeout(() => {

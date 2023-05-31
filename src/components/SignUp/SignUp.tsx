@@ -7,17 +7,17 @@ import { UserAuth } from "../../context/AuthContext"
 import Loading from "src/components/Loading/Loading"
 import { routes } from "src/utils/routes"
 
-const SignUp = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [repeatPassword, setRepeatPassword] = useState("")
+const SignUp: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [repeatPassword, setRepeatPassword] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([])
   const [loading, setLoading] = useState(false);
-  const { createUser } = UserAuth()
+  const auth = UserAuth();
   const navigate = useNavigate()
 
 
-  const validatePassword = (value: string) => {
+  const validatePassword = (value: string): string[] => {
     const lowercaseRegex = /[a-z]/;
     const uppercaseRegex = /[A-Z]/;
     const numberRegex = /\d/;
@@ -65,8 +65,10 @@ const SignUp = () => {
     }
 
     try {
-      await createUser(email, password)
+      if (auth && auth.createUser) {
+      await auth.createUser(email, password);
       navigate(routes.search);
+      }
     } catch (error_: unknown) {
       if (typeof error_ === "object" && error_ !== null) {
         const error = error_ as { code?: string; message?: string };
@@ -91,7 +93,7 @@ const SignUp = () => {
   }
 
   const handleEmailBlur = () => {
-    if (!email) {
+    if (!email.trim()) {
       setErrors(["Email is required"]);
     }
   };
@@ -115,6 +117,7 @@ const SignUp = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   onBlur={handleEmailBlur}
                   type="email"
+                  value={email}
                   placeholder="Enter your email"
                   className={
                     errors.includes("Email is required") || errors.includes("User already exists. Please sign in instead.")

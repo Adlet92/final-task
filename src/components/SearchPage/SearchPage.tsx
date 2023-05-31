@@ -5,9 +5,9 @@ import { useSearchParams } from "react-router-dom"
 import SearchResults from "../SearchResults/SearchResults"
 import Header from "src/components/Header/Header"
 
-const SearchPage = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [submittedQuery, setSubmittedQuery] = useState("");
+const SearchPage: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [submittedQuery, setSubmittedQuery] = useState<string>("");
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   
@@ -36,7 +36,7 @@ const SearchPage = () => {
   }
   return (
     <div className="search-page">
-      <Header/>
+      <Header backButton={false}/>
       <div className="search-bar">
         <form onSubmit={handleSearch}>
           <input
@@ -64,16 +64,6 @@ const SearchPage = () => {
         )}
         {submittedQuery && <SearchResults query={submittedQuery} />}
       </div>
-      {/* <div className="search-result">
-      {searchQuery !== "" ? (
-          <SearchResults query={searchQuery} />
-        ) : (
-          <div className="no-result">
-            <p className="upper-text">Please start a search to display results</p>
-            <p className="bottom-text">No data to display</p>
-          </div>
-        )}
-      </div> */}
     </div>
   )
 }

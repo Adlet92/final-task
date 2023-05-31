@@ -6,12 +6,12 @@ import { UserAuth } from "../../context/AuthContext"
 import Loading from "src/components/Loading/Loading"
 import { routes } from "src/utils/routes"
 
-const SignIn = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
+const SignIn: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const { signIn } = UserAuth()
+  const auth = UserAuth();
   const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,8 +29,10 @@ const SignIn = () => {
     }
 
     try {
-      await signIn(email, password)
-      navigate(routes.search)
+      if (auth && auth.signIn) {
+        await auth.signIn(email, password);
+        navigate(routes.search)
+      }
     } catch {
       setError(
         "Login failed! Please, check your email and password and try again.",

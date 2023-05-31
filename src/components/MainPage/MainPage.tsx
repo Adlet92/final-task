@@ -1,13 +1,12 @@
 import "./MainPage.css"
-
-import React from "react"
 import { useNavigate } from "react-router-dom"
 import { UserAuth } from "../../context/AuthContext";
 import { routes } from "src/utils/routes";
 
-const MainPage = () => {
+const MainPage: React.FC = () => {
   const navigate = useNavigate()
-  const { user } = UserAuth();
+  const auth = UserAuth();
+  const user = auth && auth.user;
 
     const handleLogin = () => {
       if (user) {

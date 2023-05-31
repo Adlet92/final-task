@@ -9,10 +9,10 @@ type ProtectedRouteProps = {
 };
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { user } = UserAuth()
+  const auth = UserAuth();
 
-  if (!user) {
-    return <Navigate to={routes.main} />
+  if (!auth || !auth.user) {
+    return <Navigate to={routes.main} />;
   }
 
   return <>{children}</>;
