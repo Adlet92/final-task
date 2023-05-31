@@ -62,3 +62,21 @@
 
     color: #7EA0D2;
   }
+  .back-to-search-button {
+    /* width: 97px; */
+    position: absolute;
+    height: 32px;
+    left: 9%;
+    top: 15%;
+    background-color: transparent;
+
+    border-radius: 16px;
+    cursor: pointer;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+
+    color: #7EA0D2;
+  }

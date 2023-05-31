@@ -13,7 +13,7 @@ const PageNotFound = () => {
 
   return (
     <>
-      <Header />
+      <Header backButton={false}/>
       <div className="notFound-container">
         <div className="title-404">404</div>
         <div className="page-not-found">Page not found</div>

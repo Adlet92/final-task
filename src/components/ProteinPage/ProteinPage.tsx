@@ -78,7 +78,7 @@ const ProteinPage = () => {
 
     return (
         <div className="protein-container">
-            <Header/>
+            <Header backButton={true}/>
             <div className="protein-header">
                 <div className="proteinId">
                     {proteinId + " / " + results?.uniProtkbId}
