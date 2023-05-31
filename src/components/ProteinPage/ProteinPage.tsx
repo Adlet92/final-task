@@ -7,6 +7,7 @@ import Header from "src/components/Header/Header";
 import { fetchProteinDetails } from "src/api/api";
 import Loading from "src/components/Loading/Loading";
 import Publications from "src/components/ProteinPage/Publications/Publications";
+import { toast } from "react-toastify";
 // import Feature from "src/components/ProteinPage/Feature/Feature";
 
 
@@ -36,7 +37,7 @@ const ProteinPage = () => {
             setResults(proteinDetails);
             
         } catch (error) {
-            console.log(error)
+           toast.error(error as string);
         }
         }
 

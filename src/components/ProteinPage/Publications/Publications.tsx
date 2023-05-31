@@ -6,6 +6,7 @@ import Icon from '../../../assets/iconExternal.svg'
 import { v4 as uuidv4 } from "uuid";
 import './Publications.css'
 import Loading from "src/components/Loading/Loading";
+import { toast } from "react-toastify";
 
 type Link = {
   database: string;
@@ -47,7 +48,7 @@ const Publications = () => {
       setPublicationsInfo(proteinPublications);
       setIsLoading(false);
     } catch (error) {
-      console.error(error);
+      toast.error(error as string);
       setIsLoading(false);
     }
   };

@@ -20,10 +20,10 @@ const MainPage = () => {
   return (
     <div className="mainPage">
       <div className="textArea">
-        <h1 className="labelName">{"Q-1 Search"}</h1>
+        <h1 className="labelName">Q-1 Search</h1>
         <p className="descText">
-          {"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do"}
-          {"eiusmod tempor incididunt u"}
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt u
         </p>
         <button onClick={handleLogin} className="loginButton">
           Login

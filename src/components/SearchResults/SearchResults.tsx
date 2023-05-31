@@ -7,6 +7,7 @@ import SortIconBlue from "../../assets/sortIconBlue.svg";
 import Loading from "src/components/Loading/Loading";
 import { fetchSearchResults } from "src/api/api";
 import {routes} from "src/utils/routes"
+import { toast } from "react-toastify";
 
 
 interface SubcellularLocation {
@@ -53,7 +54,7 @@ const SearchResults = ({ query }: { query: string }) => {
           const searchResults = await fetchSearchResults(query);
           setResults(searchResults);
         } catch (error) {
-          console.log(error);
+          toast.error(error as string);
         } finally {
           setIsLoading(false);
         }
@@ -99,7 +100,6 @@ const SearchResults = ({ query }: { query: string }) => {
     
     useEffect(() => {
       const params = new URLSearchParams(searchParams);
-      console.log(params)
       const sortParam = params.get("sort");
       if (sortParam) {
         const [key, order] = sortParam.split(" ");
@@ -111,10 +111,8 @@ const SearchResults = ({ query }: { query: string }) => {
   const sortResults = (results: ResultsData[]) => {
     const sortedResults = [...results];
   
-    // Apply sorting based on the sort key and order
     sortedResults.sort((a, b) => {
       if (sortOrder === "default") {
-        // Sort by index when sortOrder is "default"
         return results.indexOf(a) - results.indexOf(b);
       }
   
@@ -221,7 +219,6 @@ const sortedResults = sortResults(results);
           {sortedResults.map((item, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
-              {/* <td className="primaryAccession"><Link to={`/protein/${item.primaryAccession}`}> */}
               <td className="primaryAccession"><Link to={`${routes.proteinRoute}/${item.primaryAccession}`}>
                     {item.primaryAccession}
                   </Link>
