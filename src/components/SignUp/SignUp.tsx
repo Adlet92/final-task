@@ -67,13 +67,19 @@ const SignUp = () => {
     try {
       await createUser(email, password)
       navigate(routes.search);
-    } catch (error_: any) {
-      if (error_.code === "auth/email-already-in-use") {
-        setErrors(["User already exists. Please sign in instead."])
+    } catch (error_: unknown) {
+      if (typeof error_ === "object" && error_ !== null) {
+        const error = error_ as { code?: string; message?: string };
+        if (error.code === "auth/email-already-in-use") {
+          setErrors(["User already exists. Please sign in instead."]);
+        } else {
+          setErrors([error.message || "An error occurred"]);
+        }
       } else {
-        setErrors([error_.message])
+        setErrors(["An error occurred"]);
       }
     }
+    
     setLoading(false);
   }
 

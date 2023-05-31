@@ -31,6 +31,9 @@ const SearchPage = () => {
     setSubmittedQuery(emptyQuery);
     setSearchParams({ query: encodeURIComponent(emptyQuery) });
   }
+  const handleFilter = () => {
+    // will implement filter logic here
+  }
   return (
     <div className="search-page">
       <Header/>
@@ -47,7 +50,7 @@ const SearchPage = () => {
           <button className="search-button" type="submit">
             Search
           </button>
-          <button className="filter-button" />
+          <button className="filter-button" onClick={handleFilter}/>
         </form>
       </div>
       <div className="search-result">

@@ -7,30 +7,16 @@ import {
 } from 'firebase/auth'
 import {auth} from '../firebase'
 
-type User = {
-    email: string;
-    password: string;
-  };
+const UserContext = createContext()
 
-type AuthContextProps = {
-    createUser: (email: string, password: string) => Promise<any>;
-    user: User;
-    logout: () => Promise<any>;
-    signIn: (email: string, password: string) => Promise<any>;
-  };
+export const AuthContextProvider = ({children}) => {
+    const [user, setUser] = useState({});
 
-const UserContext = createContext<AuthContextProps>({} as AuthContextProps);
-// const UserContext = createContext()
-
-export const AuthContextProvider: React.FC = ({ children }) => {
-    const [user, setUser] = useState<User>({});
-
-    const createUser = (email: string, password: string) => {
-        return createUserWithEmailAndPassword(auth, email, password);
+    const createUser = (email, password) => {
+        return createUserWithEmailAndPassword(auth, email, password)
     };
-
-    const signIn = (email: string, password: string) => {
-        return signInWithEmailAndPassword(auth, email, password);
+    const signIn = (email, password) => {
+        return signInWithEmailAndPassword(auth, email, password)
     };
 
     const logout = () => {
