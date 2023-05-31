@@ -38,7 +38,8 @@ interface PublicationInfo {
 }
 
 const Publications = () => {
-  const { proteinId } = useParams();
+  // const { proteinId } = useParams();
+  const { proteinId = "" } = useParams();
   const [publicationsInfo, setPublicationsInfo] = useState<PublicationResponse>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 

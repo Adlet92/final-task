@@ -7,7 +7,7 @@ import { routes } from "src/utils/routes";
 const PageNotFound = () => {
   const navigate = useNavigate();
 
-  const handleBackToSearch = () => {
+const handleBackToSearch = () => {
     navigate(routes.search);
   };
 

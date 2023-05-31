@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState }  from "react"
 import copyIcon from "../../../assets/copyIcon.svg";
+import copyIconBlue from "../../../assets/copyIconBlue.svg";
 import './DetailsPage.css'
 import Loading from "src/components/Loading/Loading";
 
@@ -21,6 +22,7 @@ interface DetailsPageProps {
 const DetailsPage: React.FC<DetailsPageProps> = ({ proteinData }) => {
     const sequenceRef = useRef<HTMLDivElement>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isCopyClicked, setIsCopyClicked] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -36,6 +38,10 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ proteinData }) => {
         if (sequenceRef.current) {
             const sequenceInfo = sequenceRef.current.innerText;
             navigator.clipboard.writeText(sequenceInfo);
+            setIsCopyClicked(true);
+            setTimeout(() => {
+                setIsCopyClicked(false);
+            }, 1000);
         }
     };
     const formatDate = (dateString: string) => {
@@ -87,7 +93,7 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ proteinData }) => {
                 </div>
           </div>
           <div className="copy-icon" onClick={handleCopyClick}>
-            <img src={copyIcon} alt="copy Icon" />
+            <img src={isCopyClicked ? copyIconBlue : copyIcon} alt="copy Icon" />
             <p>Copy</p>
           </div>
           <div className="sequence-container">

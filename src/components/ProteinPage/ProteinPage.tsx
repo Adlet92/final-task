@@ -25,7 +25,8 @@ enum Tab {
 }
 
 const ProteinPage = () => {
-    const { proteinId } = useParams();
+    // const { proteinId } = useParams();
+    const { proteinId = "" } = useParams();
     const [results, setResults] = useState<ProteinPageProps | null>(null);
     const [activeTab, setActiveTab] = useState<Tab | null>(null);
     const location = useLocation();
