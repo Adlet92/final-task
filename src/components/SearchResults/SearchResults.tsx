@@ -46,7 +46,7 @@ const SearchResults = ({ query }: { query: string }) => {
   const [sortKey, setSortKey] = useState<SortKey | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>("default");
   const [searchParams, setSearchParams] = useSearchParams();
-  // const [total, setTotal] = useState<number>(0);
+  const [totalResults, setTotalResults] = useState('0');
 
 
 
@@ -54,9 +54,10 @@ const SearchResults = ({ query }: { query: string }) => {
         const fetchData = async () => {
           setIsLoading(true);
           try {
+            // const { data: searchParams, headers: totalNum} = await fetchSearchResults(query);
             const searchParams = await fetchSearchResults(query);
-            // setTotal(totalParams['x-total-results']);
             setResults(searchParams)
+            // setTotalResults(totalNum['x-total-results'])
           } catch (error) {
             toast.error(error as string);
           } finally {
@@ -65,7 +66,6 @@ const SearchResults = ({ query }: { query: string }) => {
       };
         fetchData();
     }, [query, sortOrder, sortKey]);
-
 
     useEffect(() => {
       const params = new URLSearchParams(searchParams);

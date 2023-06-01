@@ -2,15 +2,15 @@ import "./SearchPage.css"
 
 import React, { useEffect, useRef, useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import SearchResults from "../SearchResults/SearchResults"
 import Header from "src/components/Header/Header"
+import SearchResults from "../SearchResults/SearchResults"
 
 const SearchPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [submittedQuery, setSubmittedQuery] = useState<string>("");
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
-  
+
   useEffect(() => {
     const query = searchParams.get("query") || "";
     setSearchQuery(query);
@@ -27,12 +27,9 @@ const SearchPage: React.FC = () => {
     e.preventDefault()
     const trimmedQuery = searchQuery.trim()
     const emptyQuery = trimmedQuery !== "" ? trimmedQuery : "*"
-    
+
     setSubmittedQuery(emptyQuery);
     setSearchParams({ query: encodeURIComponent(emptyQuery) });
-  }
-  const handleFilter = () => {
-    // will implement filter logic here
   }
   return (
     <div className="search-page">
@@ -50,7 +47,7 @@ const SearchPage: React.FC = () => {
           <button className="search-button" type="submit">
             Search
           </button>
-          <button className="filter-button" onClick={handleFilter}/>
+          <button className="filter-button" />
         </form>
       </div>
       <div className="search-result">
