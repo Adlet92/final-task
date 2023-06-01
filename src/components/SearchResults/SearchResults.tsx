@@ -5,6 +5,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { fetchSearchResults } from "src/api/api";
 import Loading from "src/components/Loading/Loading";
+import { addSpacesToString } from "src/utils/convert";
 import { routes } from "src/utils/routes";
 import SortIcon from "../../assets/sortIcon.svg";
 import SortIconBlue from "../../assets/sortIconBlue.svg";
@@ -46,7 +47,7 @@ const SearchResults = ({ query }: { query: string }) => {
   const [sortKey, setSortKey] = useState<SortKey | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>("default");
   const [searchParams, setSearchParams] = useSearchParams();
-  const [totalResults, setTotalResults] = useState('0');
+  const [totalResults, setTotalResults] = useState(0);
 
 
 
@@ -54,10 +55,10 @@ const SearchResults = ({ query }: { query: string }) => {
         const fetchData = async () => {
           setIsLoading(true);
           try {
-            // const { data: searchParams, headers: totalNum} = await fetchSearchResults(query);
-            const searchParams = await fetchSearchResults(query);
+            const { data: searchParams, headers: totalNum} = await fetchSearchResults(query);
+            // const searchParams = await fetchSearchResults(query);
             setResults(searchParams)
-            // setTotalResults(totalNum['x-total-results'])
+            setTotalResults(totalNum)
           } catch (error) {
             toast.error(error as string);
           } finally {
@@ -171,8 +172,8 @@ const sortedResults = sortResults(results);
   return (
     <div>
       <div className="results-number">
-        <p>{`${sortedResults.length} Search results found for "${query}" `}</p>
-        {/* <p>{`${total} Search results found for "${query}" `}</p> */}
+        {/* <p>{`${sortedResults.length} Search results found for "${query}" `}</p> */}
+        <p>{`${addSpacesToString(totalResults.toString())} Search results found for "${query}" `}</p>
     </div>
       <div className="table-container">
         <table className="resultTable">
