@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { UserAuth } from "../../context/AuthContext"
 import Loading from "src/components/Loading/Loading"
 import { routes } from "src/utils/routes"
+import { validateForm } from "src/utils/validation"
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -16,50 +17,15 @@ const SignUp: React.FC = () => {
   const auth = UserAuth();
   const navigate = useNavigate()
 
-
-  const validatePassword = (value: string): string[] => {
-    const lowercaseRegex = /[a-z]/;
-    const uppercaseRegex = /[A-Z]/;
-    const numberRegex = /\d/;
-
-    const newErrors: string[] = [];
-
-    if (!value || value.length < 6) {
-      newErrors.push("Password must be at least 6 characters long");
-    } 
-    if (!lowercaseRegex.test(value)) {
-        newErrors.push("Password must contain a lowercase letter");
-    }
-    if (!uppercaseRegex.test(value)) {
-        newErrors.push("Password must contain an uppercase letter");
-    }
-
-    if (!numberRegex.test(value)) {
-        newErrors.push("Password must contain a number");
-    }
-
-    if (value !== repeatPassword) {
-      newErrors.push("Passwords do not match");
-    }
-
-    return newErrors;
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors([]);
     setLoading(true);
 
-    if (!email) {
-      setErrors(["Email is required"]);
-      setLoading(false);
-      return;
-    }
+    const errors = validateForm(email, password, repeatPassword);
 
-    const passwordErrors = validatePassword(password);
-
-    if (passwordErrors.length > 0) {
-      setErrors(passwordErrors);
+    if (errors.length > 0) {
+      setErrors(errors);
       setLoading(false);
       return;
     }
@@ -85,22 +51,23 @@ const SignUp: React.FC = () => {
     setLoading(false);
   }
 
-  const handleRepeatPasswordChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setRepeatPassword(e.target.value)
-    setErrors([])
-  }
+  
 
   const handleEmailBlur = () => {
-    if (!email.trim()) {
-      setErrors(["Email is required"]);
-    }
+    const errors = validateForm(email, password, repeatPassword);
+    setErrors(errors);
+  };
+  
+  
+  const handlePasswordBlur = () => {
+    const errors = validateForm(email, password, repeatPassword);
+    setErrors(errors);
   };
 
-  const handlePasswordBlur = () => {
-    const passwordErrors = validatePassword(password);
-    setErrors(passwordErrors);
+  const handleRepeatPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRepeatPassword(e.target.value);
+    const errors = validateForm(email, password, e.target.value);
+    setErrors(errors);
   };
 
   return (
@@ -116,11 +83,11 @@ const SignUp: React.FC = () => {
                 <input
                   onChange={(e) => setEmail(e.target.value)}
                   onBlur={handleEmailBlur}
-                  type="email"
+                  // type="email"
                   value={email}
                   placeholder="Enter your email"
                   className={
-                    errors.includes("Email is required") || errors.includes("User already exists. Please sign in instead.")
+                    errors.includes("Email is required") || errors.includes("User already exists. Please sign in instead.") || errors.includes("Invalid email format")
                       ? "error-input"
                       : ""
                   }
@@ -137,6 +104,7 @@ const SignUp: React.FC = () => {
                     (error) =>
                       error !== "Email is required" &&
                       error !== "Passwords do not match" &&
+                      error !== "Invalid email format" &&
                       error !== "User already exists. Please sign in instead."
                   )
                     ? "error-input"

@@ -1,7 +1,7 @@
-import "./MainPage.css"
-import { useNavigate } from "react-router-dom"
-import { UserAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 import { routes } from "src/utils/routes";
+import { UserAuth } from "../../context/AuthContext";
+import "./MainPage.css";
 
 const MainPage: React.FC = () => {
   const navigate = useNavigate()

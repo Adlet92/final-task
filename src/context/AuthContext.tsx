@@ -1,13 +1,14 @@
-import React, {ReactNode, createContext, useContext, useEffect, useState} from 'react'
 import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged,
-    UserCredential,
-    User
+  User,
+  UserCredential,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut
 } from 'firebase/auth'
-import {auth} from '../firebase'
+import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react'
+import Loading from 'src/components/Loading/Loading'
+import { auth } from '../firebase'
 
 // const UserContext = createContext()
 
@@ -15,14 +16,16 @@ type UserContextType = {
     createUser: (email: string, password: string) => Promise<UserCredential>,
     signIn: (email: string, password: string) => Promise<UserCredential>,
     logout: () => Promise<void>,
-    user: User,
+    user: User | null,
   }
 
 const UserContext = createContext<UserContextType | null>(null)
 
 export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     // const [user, setUser] = useState({});
-    const [user, setUser] = useState<User>({} as User);
+    // const [user, setUser] = useState<User>({} as User);
+    const [user, setUser] = useState<User | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     const createUser = (email: string, password: string) => {
         return createUserWithEmailAndPassword(auth, email, password)
@@ -37,13 +40,18 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) =>{
-            setUser(currentUser)
+          setUser(currentUser)
+          setIsLoading(false);
         });
 
         return () =>{
             unsubscribe();
         }
     }, [])
+
+    if (isLoading) {
+      return <Loading/>;
+    }
 
     return (
         <UserContext.Provider value={{ createUser, user, logout, signIn }}>
@@ -55,4 +63,5 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
 export const UserAuth = () => {
     return useContext(UserContext)
 }
+
 

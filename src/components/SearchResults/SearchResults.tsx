@@ -1,13 +1,13 @@
-import "./SearchResults.css"
+import "./SearchResults.css";
 
-import { useEffect, useState } from "react"
-import { Link, useSearchParams } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { fetchSearchResults } from "src/api/api";
+import Loading from "src/components/Loading/Loading";
+import { routes } from "src/utils/routes";
 import SortIcon from "../../assets/sortIcon.svg";
 import SortIconBlue from "../../assets/sortIconBlue.svg";
-import Loading from "src/components/Loading/Loading";
-import { fetchSearchResults } from "src/api/api";
-import {routes} from "src/utils/routes"
-import { toast } from "react-toastify";
 
 
 interface SubcellularLocation {
@@ -46,21 +46,26 @@ const SearchResults = ({ query }: { query: string }) => {
   const [sortKey, setSortKey] = useState<SortKey | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>("default");
   const [searchParams, setSearchParams] = useSearchParams();
+  // const [total, setTotal] = useState<number>(0);
+
+
 
     useEffect(() => {
         const fetchData = async () => {
           setIsLoading(true);
           try {
-              const searchParams= await fetchSearchResults(query);
-              setResults(searchParams)
+            const searchParams = await fetchSearchResults(query);
+            // setTotal(totalParams['x-total-results']);
+            setResults(searchParams)
           } catch (error) {
             toast.error(error as string);
           } finally {
             setIsLoading(false);
           }
-        };
+      };
         fetchData();
     }, [query, sortOrder, sortKey]);
+
 
     useEffect(() => {
       const params = new URLSearchParams(searchParams);
@@ -71,7 +76,7 @@ const SearchResults = ({ query }: { query: string }) => {
         setSortKey(urlSortKey);
       }
     }, [searchParams]);
-  
+
 
   const handleSort = (key: SortKey) => {
     if (sortKey === key) {
@@ -96,7 +101,7 @@ const SearchResults = ({ query }: { query: string }) => {
       }
       setSearchParams(params.toString());
     }, [sortKey, sortOrder]);
-    
+
     useEffect(() => {
       const params = new URLSearchParams(searchParams);
       const sortParam = params.get("sort");
@@ -109,29 +114,29 @@ const SearchResults = ({ query }: { query: string }) => {
 
   const sortResults = (results: ResultsData[]) => {
     const sortedResults = [...results];
-  
+
     sortedResults.sort((a, b) => {
       if (sortOrder === "default") {
         return results.indexOf(a) - results.indexOf(b);
       }
-  
+
       const aValue = getValue(a, sortKey);
       const bValue = getValue(b, sortKey);
-  
+
       if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
       if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
       return 0;
     });
-  
+
     return sortedResults;
   };
-  
+
 
   const getValue = (data: ResultsData, key: SortKey | null): string | number => {
     if (key === null) {
       return "";
     }
-  
+
     switch (key) {
       case "accession":
         return data.primaryAccession;
@@ -147,10 +152,10 @@ const SearchResults = ({ query }: { query: string }) => {
         return "";
     }
   };
-  
+
 
   if (isLoading) {
-    return <Loading />; 
+    return <Loading />;
   }
 
   if (results.length === 0) {
@@ -167,36 +172,37 @@ const sortedResults = sortResults(results);
     <div>
       <div className="results-number">
         <p>{`${sortedResults.length} Search results found for "${query}" `}</p>
+        {/* <p>{`${total} Search results found for "${query}" `}</p> */}
     </div>
-      <div className="table-container" id="resultTable">
-        <table>
+      <div className="table-container">
+        <table className="resultTable">
           <thead>
           <tr>
             <th className="number">{"#"}</th>
             <th className="entry">
                 Entry
-              <img 
+              <img
                   src={sortKey === "accession" ? SortIconBlue : SortIcon}
                   onClick={() => handleSort("accession")}
                   className={sortKey === "accession" ? "active" : ""}/>
               </th>
             <th className="entry-name">
                 Entry names
-              <img 
+              <img
                   src={sortKey === "id" ? SortIconBlue : SortIcon}
                   onClick={() => handleSort("id")}
                   className={sortKey === "id" ? "active" : ""}/>
               </th>
             <th className="genes">
                 Genes
-              <img 
+              <img
                   src={sortKey === "gene" ? SortIconBlue : SortIcon}
                   onClick={() => handleSort("gene")}
                   className={sortKey === "gene" ? "active" : ""}/>
               </th>
             <th className="organism">
                 Organism
-              <img 
+              <img
                   src={sortKey === "organism_name" ? SortIconBlue : SortIcon}
                   onClick={() => handleSort("organism_name")}
                   className={sortKey === "organism_name" ? "active" : ""}/>
@@ -206,8 +212,8 @@ const sortedResults = sortResults(results);
               </th>
             <th className="length">
                 Length
-              <img 
-                  src={sortKey === "length" ? SortIconBlue : SortIcon} 
+              <img
+                  src={sortKey === "length" ? SortIconBlue : SortIcon}
                   onClick={() => handleSort("length")}
                   className={sortKey === "length" ? "active" : ""}
                   />
@@ -247,6 +253,13 @@ const sortedResults = sortResults(results);
               <td className="lengthLast">{item.sequence.length}</td>
             </tr>
           ))}
+            {isLoading && (
+              <tr>
+                <td colSpan={7}>
+                  <Loading />
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
