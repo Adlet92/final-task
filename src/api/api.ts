@@ -3,9 +3,9 @@ import { toast } from "react-toastify";
 
 const UNIPROT_API_URL = "https://rest.uniprot.org/uniprotkb/";
 
-export const fetchSearchResults = async (query: string) => {
+export const fetchSearchResults = async (query: string, page: number) => {
 
-  const apiUrl = `${UNIPROT_API_URL}search?fields=accession,reviewed,id,protein_name,gene_names,organism_name,length,ft_peptide,cc_subcellular_location&query=${query}`;
+  const apiUrl = `${UNIPROT_API_URL}search?fields=accession,reviewed,id,protein_name,gene_names,organism_name,length,ft_peptide,cc_subcellular_location&query=${query}&size=${page}`;
   try {
       const response = await axios.get(apiUrl);
       const data = response.data.results;
@@ -13,33 +13,9 @@ export const fetchSearchResults = async (query: string) => {
       return { data, headers};
     } catch (error) {
       toast.error(error as string);
-      return { data: [], headers: {} };
+      return { data: [], headers: {}};
     }
-  // try {
-  //   const response = await axios.get(apiUrl);
-  //   // const headers = response.headers['x-total-results'];
-  //   const data = response.data.results;
-  //   // return { data, headers }
-  //   return data;
-  // } catch (error) {
-  //   toast.error(error as string);
-  //   return [];
-  // }
 };
-export const fetchSearchHeaders = async (query: string) => {
-  const apiUrl = `${UNIPROT_API_URL}search?fields=accession,reviewed,id,protein_name,gene_names,organism_name,length,ft_peptide,cc_subcellular_location&query=${query}`;
-
-  try {
-    const response = await axios.get(apiUrl);
-    const headers = response.headers;
-    console.log(headers)
-    return headers;
-  } catch (error) {
-    toast.error(error as string);
-    return {};
-  }
-};
-
 
 export const fetchProteinDetails = async (proteinId: string) => {
   const apiUrl = `${UNIPROT_API_URL}${proteinId}`;

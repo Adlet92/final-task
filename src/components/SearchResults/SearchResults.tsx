@@ -1,44 +1,17 @@
 import "./SearchResults.css";
 
 import { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { fetchSearchResults } from "src/api/api";
-import Loading from "src/components/Loading/Loading";
+import { ResultsData, SortKey, SortOrder } from "src/types/resultsData";
 import { addSpacesToString } from "src/utils/convert";
 import { routes } from "src/utils/routes";
 import SortIcon from "../../assets/sortIcon.svg";
 import SortIconBlue from "../../assets/sortIconBlue.svg";
+import { sortResults } from "../../utils/sorting";
 
-
-interface SubcellularLocation {
-  location: { value: string };
-}
-
-interface Organism {
-  scientificName: string;
-}
-
-interface Comment {
-  subcellularLocations: SubcellularLocation[];
-}
-
-interface Gene {
-  geneName: { value: string };
-  synonyms: { value: string }[];
-}
-
-interface ResultsData {
-  primaryAccession: string;
-  uniProtkbId: string;
-  genes: Gene[];
-  organism: Organism;
-  comments: Comment[];
-  sequence: string;
-}
-
-type SortOrder = "asc" | "desc" | "default";
-type SortKey = "accession" | "id" | "gene" | "organism_name" | "length";
 
 const SearchResults = ({ query }: { query: string }) => {
 
@@ -48,16 +21,15 @@ const SearchResults = ({ query }: { query: string }) => {
   const [sortOrder, setSortOrder] = useState<SortOrder>("default");
   const [searchParams, setSearchParams] = useSearchParams();
   const [totalResults, setTotalResults] = useState(0);
-
-
+  const [page, setPage] = useState(25);
 
     useEffect(() => {
-        const fetchData = async () => {
+      const fetchData = async () => {
           setIsLoading(true);
           try {
-            const { data: searchParams, headers: totalNum} = await fetchSearchResults(query);
-            // const searchParams = await fetchSearchResults(query);
-            setResults(searchParams)
+            const { data: searchParams, headers: totalNum} = await fetchSearchResults(query, page);
+            // setResults(searchParams)
+            setResults((prevResults) => [...prevResults, ...searchParams]);
             setTotalResults(totalNum)
           } catch (error) {
             toast.error(error as string);
@@ -66,7 +38,12 @@ const SearchResults = ({ query }: { query: string }) => {
           }
       };
         fetchData();
-    }, [query, sortOrder, sortKey]);
+    }, [query, sortOrder, sortKey, page]);
+
+
+  const loadMoreResults = async () => {
+      setPage((prevPage) => prevPage + 25);
+  };
 
     useEffect(() => {
       const params = new URLSearchParams(searchParams);
@@ -87,7 +64,6 @@ const SearchResults = ({ query }: { query: string }) => {
         return "asc";
       });
     } else {
-      // If a different key is clicked, set it as the new sort key and reset the sort order
       setSortKey(key);
       setSortOrder("asc");
     }
@@ -113,51 +89,12 @@ const SearchResults = ({ query }: { query: string }) => {
       }
     }, [searchParams]);
 
-  const sortResults = (results: ResultsData[]) => {
-    const sortedResults = [...results];
-
-    sortedResults.sort((a, b) => {
-      if (sortOrder === "default") {
-        return results.indexOf(a) - results.indexOf(b);
-      }
-
-      const aValue = getValue(a, sortKey);
-      const bValue = getValue(b, sortKey);
-
-      if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
-      if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
-      return 0;
-    });
-
-    return sortedResults;
-  };
-
-
-  const getValue = (data: ResultsData, key: SortKey | null): string | number => {
-    if (key === null) {
-      return "";
-    }
-
-    switch (key) {
-      case "accession":
-        return data.primaryAccession;
-      case "id":
-        return data.uniProtkbId;
-      case "gene":
-        return data.genes[0]?.geneName?.value ?? "";
-      case "organism_name":
-        return data.organism.scientificName;
-      case "length":
-        return data.sequence.length;
-      default:
-        return "";
-    }
-  };
-
-
-  if (isLoading) {
-    return <Loading />;
-  }
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
+  // if (isLoading && results.length === 0) {
+  //   return <Loading />;
+  // }
 
   if (results.length === 0) {
     return (
@@ -168,14 +105,23 @@ const SearchResults = ({ query }: { query: string }) => {
     )
   }
 
-const sortedResults = sortResults(results);
+  const sortedResults = sortResults(results, sortOrder, sortKey);
+
   return (
     <div>
       <div className="results-number">
-        {/* <p>{`${sortedResults.length} Search results found for "${query}" `}</p> */}
         <p>{`${addSpacesToString(totalResults.toString())} Search results found for "${query}" `}</p>
     </div>
-      <div className="table-container">
+      <div
+        className="table-container">
+        <InfiniteScroll
+            dataLength={sortedResults.length}
+            next={loadMoreResults}
+            hasMore={results.length < totalResults}
+            scrollThreshold={1.0}
+            loader={<h4>Loading...</h4>}
+            height={500}
+        >
         <table className="resultTable">
           <thead>
           <tr>
@@ -244,7 +190,6 @@ const sortedResults = sortResults(results);
                     "no genes data"
                   )}
                 </td>
-
               <td className="scientificName">{item.organism.scientificName}</td>
               <td className="subcellularLocations">
                 {item.comments
@@ -254,15 +199,9 @@ const sortedResults = sortResults(results);
               <td className="lengthLast">{item.sequence.length}</td>
             </tr>
           ))}
-            {isLoading && (
-              <tr>
-                <td colSpan={7}>
-                  <Loading />
-                </td>
-              </tr>
-            )}
           </tbody>
-        </table>
+          </table>
+          </InfiniteScroll>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@ import "./SearchPage.css"
 
 import React, { useEffect, useRef, useState } from "react"
 import { useSearchParams } from "react-router-dom"
+import FilterModal from "src/components/Filters/FilterModal"
 import Header from "src/components/Header/Header"
 import SearchResults from "../SearchResults/SearchResults"
 
@@ -10,6 +11,7 @@ const SearchPage: React.FC = () => {
   const [submittedQuery, setSubmittedQuery] = useState<string>("");
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [showFilters, setShowMFilters] = useState<boolean>(false);
 
   useEffect(() => {
     const query = searchParams.get("query") || "";
@@ -31,6 +33,14 @@ const SearchPage: React.FC = () => {
     setSubmittedQuery(emptyQuery);
     setSearchParams({ query: encodeURIComponent(emptyQuery) });
   }
+  const handleOpenModal = () => {
+    setShowMFilters(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowMFilters(false);
+  };
+
   return (
     <div className="search-page">
       <Header backButton={false}/>
@@ -47,7 +57,7 @@ const SearchPage: React.FC = () => {
           <button className="search-button" type="submit">
             Search
           </button>
-          <button className="filter-button" />
+          <button className="filter-button" onClick={handleOpenModal} />
         </form>
       </div>
       <div className="search-result">
@@ -61,6 +71,7 @@ const SearchPage: React.FC = () => {
         )}
         {submittedQuery && <SearchResults query={submittedQuery} />}
       </div>
+      {showFilters && <FilterModal onClose={handleCloseModal} />}
     </div>
   )
 }

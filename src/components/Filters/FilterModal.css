@@ -1,0 +1,133 @@
+.filter-modal-container {
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 1;
+  overflow: auto;
+  width: 335px;
+  height: 591px;
+  left: 813px;
+  top: 119px;
+
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  border-radius: 12px;
+}
+.filter-modal-body{
+  padding-left: 14px;
+  padding-top: 12px;
+  padding-right: 18px;
+}
+.filter-label{
+  text-align: initial;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  color: #000000;
+  margin-bottom: 21.68px;
+}
+.labels{
+  text-align: initial;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  color: #2B2B2B;
+}
+.gene-input{
+  height: 52.03809356689453px;
+  width: 303px;
+  background: #F5F5F5;
+  border-radius: 8px;
+  margin-bottom: 15.18px;
+  border: transparent;
+  padding-left: 11px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+
+  color: #6C6C6C;
+}
+.select-class{
+  height: 52.03809356689453px;
+  width: 303px;
+  background: #F5F5F5;
+  border-radius: 8px;
+  margin-bottom: 15.18px;
+  border: transparent;
+  padding-left: 11px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+
+  color: #6C6C6C;
+
+}
+.input-container {
+  display: flex;
+  align-items: center;
+}
+.from-to-input{
+  height: 52.03809356689453px;
+  width: 129px;
+  border-radius: 8px;
+  background: #F5F5F5;
+  margin-bottom: 15.18px;
+  border: transparent;
+  padding-left: 11px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+
+  color: #6C6C6C;
+}
+.divider {
+  width: 29.5px;
+  height: 0px;
+  border: 1px solid #9F9F9F;
+  margin: 0 8px 15px;
+}
+.button-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-items: center;
+  padding: 10px 18px;
+  gap: 10px;
+}
+.buttons{
+  width: 141px;
+  height: 39px;
+  border-radius: 8px;
+  margin-top: 33px;
+  margin-bottom: 13px;
+}
+.cancel{
+  background: #FFFFFF;
+  /* border: 1px solid #D9D9D9; */
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  color: #3C86F4;
+}
+.apply{
+  background: #CFCFCF;
+  border: 1px solid #D9D9D9;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  color: #FFFFFF;
+}

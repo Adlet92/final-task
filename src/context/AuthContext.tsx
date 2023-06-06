@@ -10,8 +10,6 @@ import React, { ReactNode, createContext, useContext, useEffect, useState } from
 import Loading from 'src/components/Loading/Loading'
 import { auth } from '../firebase'
 
-// const UserContext = createContext()
-
 type UserContextType = {
     createUser: (email: string, password: string) => Promise<UserCredential>,
     signIn: (email: string, password: string) => Promise<UserCredential>,
@@ -22,8 +20,7 @@ type UserContextType = {
 const UserContext = createContext<UserContextType | null>(null)
 
 export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    // const [user, setUser] = useState({});
-    // const [user, setUser] = useState<User>({} as User);
+
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
