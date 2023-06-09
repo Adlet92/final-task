@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { fetchFilterOptions } from "src/api/api";
+import resetIcon from '../../assets/reset.svg';
 import './FilterModal.css';
 
 interface Option {
@@ -12,9 +13,10 @@ interface ModalProps {
   query: string;
   closeModal: () => void;
   applyFilters: (filters: string) => void;
+  filters: string;
 }
 
-const FilterModal: React.FC<ModalProps> = ({ query, closeModal, applyFilters }) => {
+const FilterModal: React.FC<ModalProps> = ({ query, closeModal, applyFilters, filters }) => {
   const [options, setOptions] = useState<Record<string, Option[]>>();
 
   const [gene, setGene] = useState<string>("");
@@ -23,6 +25,7 @@ const FilterModal: React.FC<ModalProps> = ({ query, closeModal, applyFilters }) 
   const [proteinWith, setProteinWith] = useState<string>("");
   const [fromValue, setFromValue] = useState("");
   const [toValue, setToValue] = useState("");
+  const [resetClicked, setResetClicked] = useState(false);
   const isActive =
     gene ||
     organismName ||
@@ -52,12 +55,60 @@ const FilterModal: React.FC<ModalProps> = ({ query, closeModal, applyFilters }) 
       extractOptions();
     }, [query, extractOptions]);
 
+    useEffect(() => {
+      const parseFilters = () => {
+        const filterRegex = /\((\w+):([\w[\]\s]+)\)/g;
+        let match;
+        while ((match = filterRegex.exec(filters)) !== null) {
+          const [, filterName, filterValue] = match;
+          if (filterName === "gene") {
+            setGene(filterValue);
+          } else if (filterName === "model_organism") {
+            setOrganismName(filterValue);
+          } else if (filterName === "length") {
+            const [from, to] = filterValue.slice(1, -1).split(" TO ");
+            setFromValue(from);
+            setToValue(to);
+          } else if (filterName === "annotation_score") {
+            setAnnotationScore(filterValue);
+          } else if (filterName === "proteins_with") {
+            setProteinWith(filterValue);
+          }
+        }
+      };
+
+      parseFilters();
+    }, [filters]);
+
+    const handleReset = () => {
+      setGene("");
+      setOrganismName("");
+      setFromValue("");
+      setToValue("");
+      setAnnotationScore("");
+      setProteinWith("");
+      setResetClicked(true);
+      applyFilters("");
+      closeModal();
+    };
+
+
   return (
     <>
     <div className="filter-modal-container">
       <div className="filter-modal-body">
         <div className="filter-label">
-          Filters
+            Filters
+            {/* <button
+              className="buttons reset"
+              onClick={handleReset}
+            ></button> */}
+          <img
+              className="reset-image"
+              src={resetIcon}
+              alt="Reset"
+              onClick={handleReset}/>
+
         </div>
         <div className="gene">
           <div className="labels">
@@ -204,6 +255,7 @@ const FilterModal: React.FC<ModalProps> = ({ query, closeModal, applyFilters }) 
                 }
                 closeModal();
                 console.log(filterValues)
+
               }}
             >Apply Filters</button>
         </div>

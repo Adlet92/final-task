@@ -5,7 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { fetchSearchResults } from "src/api/api";
-import Loading from "src/components/Loading/Loading";
+import LinearLoading from "src/components/Loading/LinearLoading";
 import { ResultsData, SortKey, SortOrder } from "src/types/resultsData";
 import { addSpacesToString } from "src/utils/convert";
 import { routes } from "src/utils/routes";
@@ -95,14 +95,6 @@ const SearchResults: React.FC<SearchProps> = ({ query, filters }) => {
       }
     }, [searchParams]);
 
-  // if (isLoading) {
-  //   return <Loading />;
-  // }
-
-  // if (isLoading && results.length === 0) {
-  //   return <Loading />;
-  // }
-
   if (results.length === 0) {
     return (
       <div className="no-result">
@@ -121,13 +113,12 @@ const SearchResults: React.FC<SearchProps> = ({ query, filters }) => {
     </div>
       <div
         className="table-container">
-        {isLoading && <Loading />}
         <InfiniteScroll
             dataLength={sortedResults.length}
             next={loadMoreResults}
             hasMore={sortedResults.length < totalResults}
-            scrollThreshold={0.9}
-            loader={<h4>Loading...</h4>}
+            scrollThreshold={0.95}
+            loader={<LinearLoading/>}
             height={500}
         >
         <table className="resultTable">

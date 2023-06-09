@@ -134,3 +134,11 @@
 .active-button {
   background: #3C86F4;
 }
+.reset-image{
+  width: 6%;
+  margin-left: 70%;
+  transition: opacity 0.3s ease-in-out;
+}
+.reset-image:hover {
+  opacity: 0.4;
+}

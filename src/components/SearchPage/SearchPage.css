@@ -52,6 +52,7 @@
   .filter-button {
     position: absolute;
     left: 123.72%;
+    top: 0px;
     height: 40px;
     width: 40px;
     margin-left: 13px;
@@ -67,6 +68,12 @@
     background-image: url('../../assets/filterIconActive.svg');
     background-repeat: no-repeat;
     background-position: center;
+  }
+  .filter-button.disabled {
+    background-color: grey;
+    background-image: url('../../assets/filterIconDisable.svg');
+    opacity: 0.5;
+    cursor: not-allowed;
   }
   .elipse{
     /* position: absolute; */

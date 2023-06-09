@@ -32,9 +32,14 @@ const SearchPage: React.FC = () => {
     const trimmedQuery = searchQuery.trim()
     const emptyQuery = trimmedQuery !== "" ? trimmedQuery : "*"
 
+    if (emptyQuery !== submittedQuery) {
+      setFilters("");
+    }
+
     setSubmittedQuery(emptyQuery);
     setSearchParams({ query: encodeURIComponent(emptyQuery) });
   }
+
   const handleOpenModal = () => {
     setShowFilters((prevShowFilters) => !prevShowFilters);
     setFilterButtonClicked((prevButtonClicked) => !prevButtonClicked);
@@ -45,8 +50,13 @@ const SearchPage: React.FC = () => {
     setFilterButtonClicked(false);
   };
   const applyFilters = (filters: string) => {
-    setFilters(filters);
+    const filtersArray = filters.split(" AND ");
+    const uniqueFilters = Array.from(new Set(filtersArray));
+    const updatedFilters = uniqueFilters.join(" AND ");
+    setFilters(updatedFilters);
   };
+
+  const isSearchEmpty = searchQuery.trim() === "";
 
   return (
     <div className="search-page">
@@ -64,10 +74,13 @@ const SearchPage: React.FC = () => {
           <button className="search-button" type="submit">
             Search
           </button>
-
-          <button className={`filter-button ${filterButtonClicked ? 'active-button-filter' : ''}`} onClick={handleOpenModal} />
-          { filters && <div className="elipse"></div>}
         </form>
+        <button
+          className={`filter-button ${filterButtonClicked ? 'active-button-filter' : ''} ${isSearchEmpty ? 'disabled' : ''}`}
+          onClick={handleOpenModal}
+          disabled={isSearchEmpty}
+        />
+          { filters && <div className="elipse"></div>}
       </div>
       <div className="search-result">
         {!submittedQuery && (
@@ -80,7 +93,7 @@ const SearchPage: React.FC = () => {
         )}
         {submittedQuery && <SearchResults query={submittedQuery} filters={filters} />}
       </div>
-      {showFilters && <FilterModal query={submittedQuery} closeModal={handleCloseModal} applyFilters={applyFilters} />}
+      {showFilters && <FilterModal query={submittedQuery} closeModal={handleCloseModal} applyFilters={applyFilters} filters={ filters} />}
     </div>
   )
 }

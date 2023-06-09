@@ -7,11 +7,12 @@ export const fetchSearchResults = async (query: string, page: number, filters?: 
 
   let apiUrl = `${UNIPROT_API_URL}search?fields=accession,reviewed,id,protein_name,gene_names,organism_name,length,ft_peptide,cc_subcellular_location&query=${query}`;
   if (filters) {
-    apiUrl += filters;
+    apiUrl += `${encodeURIComponent(filters)}`;
   }
   if (page) {
     apiUrl += "&size=" + page;
   }
+  console.log(apiUrl)
   try {
       const response = await axios.get(apiUrl);
       const data = response.data.results;
