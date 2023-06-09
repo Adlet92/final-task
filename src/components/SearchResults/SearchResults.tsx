@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { fetchSearchResults } from "src/api/api";
+import Loading from "src/components/Loading/Loading";
 import { ResultsData, SortKey, SortOrder } from "src/types/resultsData";
 import { addSpacesToString } from "src/utils/convert";
 import { routes } from "src/utils/routes";
@@ -12,8 +13,13 @@ import SortIcon from "../../assets/sortIcon.svg";
 import SortIconBlue from "../../assets/sortIconBlue.svg";
 import { sortResults } from "../../utils/sorting";
 
+interface SearchProps {
+  query: string;
+  filters: string;
+}
 
-const SearchResults = ({ query }: { query: string }) => {
+// eslint-disable-next-line react/prop-types
+const SearchResults: React.FC<SearchProps> = ({ query, filters }) => {
 
   const [results, setResults] = useState<ResultsData[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -27,9 +33,9 @@ const SearchResults = ({ query }: { query: string }) => {
       const fetchData = async () => {
           setIsLoading(true);
           try {
-            const { data: searchParams, headers: totalNum} = await fetchSearchResults(query, page);
-            // setResults(searchParams)
-            setResults((prevResults) => [...prevResults, ...searchParams]);
+            const { data: searchParams, headers: totalNum} = await fetchSearchResults(query, page, filters);
+            // setResults((prevResults) => [...prevResults, ...searchParams]);
+            setResults(searchParams);
             setTotalResults(totalNum)
           } catch (error) {
             toast.error(error as string);
@@ -38,7 +44,7 @@ const SearchResults = ({ query }: { query: string }) => {
           }
       };
         fetchData();
-    }, [query, sortOrder, sortKey, page]);
+    }, [query, sortOrder, sortKey, page, filters]);
 
 
   const loadMoreResults = async () => {
@@ -92,6 +98,7 @@ const SearchResults = ({ query }: { query: string }) => {
   // if (isLoading) {
   //   return <Loading />;
   // }
+
   // if (isLoading && results.length === 0) {
   //   return <Loading />;
   // }
@@ -114,11 +121,12 @@ const SearchResults = ({ query }: { query: string }) => {
     </div>
       <div
         className="table-container">
+        {isLoading && <Loading />}
         <InfiniteScroll
             dataLength={sortedResults.length}
             next={loadMoreResults}
-            hasMore={results.length < totalResults}
-            scrollThreshold={1.0}
+            hasMore={sortedResults.length < totalResults}
+            scrollThreshold={0.9}
             loader={<h4>Loading...</h4>}
             height={500}
         >

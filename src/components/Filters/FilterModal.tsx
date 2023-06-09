@@ -1,11 +1,57 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { fetchFilterOptions } from "src/api/api";
 import './FilterModal.css';
 
-interface ModalProps {
-  onClose: () => void;
+interface Option {
+  value: string;
+  label?: string;
+  count: number;
 }
 
-const FilterModal: React.FC<ModalProps> = ({ onClose }) => {
+interface ModalProps {
+  query: string;
+  closeModal: () => void;
+  applyFilters: (filters: string) => void;
+}
+
+const FilterModal: React.FC<ModalProps> = ({ query, closeModal, applyFilters }) => {
+  const [options, setOptions] = useState<Record<string, Option[]>>();
+
+  const [gene, setGene] = useState<string>("");
+  const [organismName, setOrganismName] = useState<string>("");
+  const [annotationScore, setAnnotationScore] = useState<string>("");
+  const [proteinWith, setProteinWith] = useState<string>("");
+  const [fromValue, setFromValue] = useState("");
+  const [toValue, setToValue] = useState("");
+  const isActive =
+    gene ||
+    organismName ||
+    annotationScore ||
+    proteinWith ||
+    (fromValue && toValue);
+
+    const filterValues = {
+      gene,
+      model_organism: organismName,
+      length:
+        +fromValue >= 401 && +toValue <= 600
+          ? `[${fromValue} TO ${toValue}]`
+          : "",
+      annotation_score: annotationScore,
+      proteins_with: proteinWith,
+    };
+
+    const extractOptions = useCallback(async () => {
+      if (query) {
+        const optionsData = await fetchFilterOptions(query);
+        setOptions(optionsData);
+      }
+    }, [query]);
+
+    useEffect(() => {
+      extractOptions();
+    }, [query, extractOptions]);
+
   return (
     <>
     <div className="filter-modal-container">
@@ -19,19 +65,30 @@ const FilterModal: React.FC<ModalProps> = ({ onClose }) => {
           </div>
             <input
               className="gene-input"
-              placeholder="Enter Gene name" />
+              placeholder="Enter Gene name"
+              value={gene}
+              onChange={(e) => {
+                setGene(e.target.value);
+              }}
+            />
         </div>
         <div>
           <div>
             <div className="labels">Organism</div>
                 <div className="custom-select">
-                <select className="select-class">
-                <option value="" disabled selected hidden>
+                <select
+                  className="select-class"
+                  value={organismName}
+                  onChange={(e) => {
+                    setOrganismName(e.target.value);
+                  }}
+                >
+                <option value="" disabled hidden>
                   Select an option
-                </option>
-                  <option value="option1">Option 1</option>
-                  <option value="option2">Option 2</option>
-                  <option value="option3">Option 3</option>
+                  </option>
+                    {options?.organism.map((option) => (
+                      <option value={option.value} key={option.value + option.label}>{ option.label }</option>
+                  ))}
                 </select>
               </div>
           </div>
@@ -43,11 +100,37 @@ const FilterModal: React.FC<ModalProps> = ({ onClose }) => {
           <div className="input-container">
               <input
                 className="from-to-input"
-                placeholder="From"/>
+                placeholder="From"
+                value={fromValue}
+                onChange={(e) => {
+                  setFromValue(e.target.value);
+                }}
+                onBlur={() => {
+                  if (+fromValue < 401) {
+                    setFromValue("401");
+                  }
+                  if (toValue && +toValue <= +fromValue) {
+                    setFromValue((+toValue - 1).toString());
+                  }
+                }}
+              />
             <div className="divider"></div>
               <input
                 className="from-to-input"
-                placeholder="To"/>
+                placeholder="To"
+                value={toValue}
+                onChange={(e) => {
+                  setToValue(e.target.value);
+                }}
+                onBlur={() => {
+                  if (+toValue > 600) {
+                    setToValue("600");
+                  }
+                  if (fromValue && +toValue <= +fromValue) {
+                    setToValue((+fromValue + 1).toString());
+                  }
+                }}
+              />
           </div>
         </div>
         <div>
@@ -56,13 +139,19 @@ const FilterModal: React.FC<ModalProps> = ({ onClose }) => {
               Annotation score
             </div>
             <div className="custom-select">
-                <select className="select-class">
-                <option value="" disabled selected hidden>
+                <select
+                  className="select-class"
+                  value={annotationScore}
+                  onChange={(e) => {
+                    setAnnotationScore(e.target.value);
+                  }}
+                >
+                <option value="" disabled hidden>
                   Select an option
-                </option>
-                  <option value="option1">Option 1</option>
-                  <option value="option2">Option 2</option>
-                  <option value="option3">Option 3</option>
+                  </option>
+                  {options?.annotation.map((option) => (
+                    <option value={option.value} key={option.value + option.value}>{option.value}</option>
+                  ))}
                 </select>
               </div>
           </div>
@@ -71,20 +160,52 @@ const FilterModal: React.FC<ModalProps> = ({ onClose }) => {
           <div>
             <div className="labels">Protein with</div>
               <div className="custom-select">
-                  <select className="select-class">
-                  <option value="" disabled selected hidden>
+                <select
+                  className="select-class"
+                  value={proteinWith}
+                  onChange={(e) => {
+                    setProteinWith(e.target.value);
+                  }}
+                >
+                  <option value="" disabled hidden>
                     Select
                   </option>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
+                    {options?.protein.map((option) => (
+                      <option value={option.value} key={option.value + option.label}>{option.label}</option>
+                    ))}
                   </select>
                 </div>
           </div>
         </div>
         <div className="button-container">
-          <button className="buttons cancel">Cancel</button>
-          <button className="buttons apply">Apply Filters</button>
+            <button
+              className="buttons cancel"
+              onClick={(e) => {
+                e.preventDefault();
+                closeModal();
+              }}
+            >Cancel</button>
+            <button
+              className={`buttons apply ${isActive ? 'active-button' : ''}`}
+              disabled={!isActive}
+              onClick={() => {
+                const filters = Object.entries(filterValues).reduce(
+                  (acc, item) => {
+                    if (item[1] !== "") {
+                      return acc + ` AND (${item[0]}:${item[1]})`;
+                    } else {
+                      return acc + "";
+                    }
+                  },
+                  ""
+                );
+                if (filters.length) {
+                  applyFilters(filters);
+                }
+                closeModal();
+                console.log(filterValues)
+              }}
+            >Apply Filters</button>
         </div>
       </div>
     </div>

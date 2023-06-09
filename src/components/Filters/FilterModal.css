@@ -131,3 +131,6 @@
   line-height: 19px;
   color: #FFFFFF;
 }
+.active-button {
+  background: #3C86F4;
+}

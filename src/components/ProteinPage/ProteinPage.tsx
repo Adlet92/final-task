@@ -1,15 +1,15 @@
-import "./ProteinPage.css"
+import "./ProteinPage.css";
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import DetailsPage from "src/components/ProteinPage/DetailsPage/DetailsPage";
-import Header from "src/components/Header/Header";
-import { fetchProteinDetails } from "src/api/api";
-import Loading from "src/components/Loading/Loading";
-import Publications from "src/components/ProteinPage/Publications/Publications";
 import { toast } from "react-toastify";
+import { fetchProteinDetails } from "src/api/api";
+import Header from "src/components/Header/Header";
+import Loading from "src/components/Loading/Loading";
+import DetailsPage from "src/components/ProteinPage/DetailsPage/DetailsPage";
+import Feature from "src/components/ProteinPage/Feature/Feature";
+import Publications from "src/components/ProteinPage/Publications/Publications";
 import { ProteinPageProps } from "src/types/types";
-// import Feature from "src/components/ProteinPage/Feature/Feature";
 
 enum Tab {
     Details = "details",
@@ -28,7 +28,7 @@ const ProteinPage: React.FC = () => {
         try {
             const proteinDetails = await fetchProteinDetails(proteinId);
             setResults(proteinDetails);
-            
+
         } catch (error) {
            toast.error(error as string);
         }
@@ -52,9 +52,9 @@ const ProteinPage: React.FC = () => {
           // Refresh the page when the user presses the back button
           window.location.reload();
         };
-    
+
         window.addEventListener("popstate", handlePopstate);
-    
+
         return () => {
           window.removeEventListener("popstate", handlePopstate);
         };
@@ -65,7 +65,7 @@ const ProteinPage: React.FC = () => {
       };
 
     if (!results) {
-        return <Loading />; 
+        return <Loading />;
     }
 
 
@@ -130,7 +130,7 @@ const ProteinPage: React.FC = () => {
             </div>
             <div className="tab-pane">
                 {activeTab === Tab.Details && <DetailsPage proteinData={results} />}
-                {/* {activeTab === Tab.Feature && <Feature />} */}
+                {activeTab === Tab.Feature && <Feature />}
                 {activeTab === Tab.Publications && <Publications />}
             </div>
       </div>

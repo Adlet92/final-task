@@ -6,18 +6,18 @@
 }
 
 .table-container{
-    max-height: 674px; 
+    max-height: 674px;
     overflow-y: auto;
 }
 table{
  width: 100%;
- table-layout: fixed; 
+ table-layout: fixed;
  border-collapse: collapse;
 }
 td , th{
  padding: 15px 20px;
  text-align: center;
- 
+
 
 }
 th{
@@ -31,7 +31,7 @@ th{
 
  color: #000000;
 
- 
+
 }
 tr{
  background-color: #FFFFFF;
@@ -50,7 +50,7 @@ tr{
     font-weight: 600;
     font-size: 16px;
     line-height: 22px;
-    color: #2B2B2B; 
+    color: #2B2B2B;
 }
 .number{
     width: 48px;
@@ -180,6 +180,10 @@ tr{
 .active{
     background: rgba(60, 134, 244, 0.12);
 }
-
+.resultTable thead {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+}
 
 
