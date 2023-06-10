@@ -16,11 +16,6 @@ const Header = ({ backButton }: HeaderProps) => {
   const handleBackToSearch = () => {
     navigate(routes.search);
   };
-  // const handleBackToSearch = () => {
-  //   navigate(`${routes.search}?query=${query}`);
-  // };
-
-
   const handleLogout = () => {
     if (logout) {
       logout().then(() => navigate(routes.main));

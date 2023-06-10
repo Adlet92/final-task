@@ -25,7 +25,6 @@ const FilterModal: React.FC<ModalProps> = ({ query, closeModal, applyFilters, fi
   const [proteinWith, setProteinWith] = useState<string>("");
   const [fromValue, setFromValue] = useState("");
   const [toValue, setToValue] = useState("");
-  const [resetClicked, setResetClicked] = useState(false);
   const isActive =
     gene ||
     organismName ||
@@ -87,7 +86,6 @@ const FilterModal: React.FC<ModalProps> = ({ query, closeModal, applyFilters, fi
       setToValue("");
       setAnnotationScore("");
       setProteinWith("");
-      setResetClicked(true);
       applyFilters("");
       closeModal();
     };
@@ -99,10 +97,6 @@ const FilterModal: React.FC<ModalProps> = ({ query, closeModal, applyFilters, fi
       <div className="filter-modal-body">
         <div className="filter-label">
             Filters
-            {/* <button
-              className="buttons reset"
-              onClick={handleReset}
-            ></button> */}
           <img
               className="reset-image"
               src={resetIcon}
@@ -254,8 +248,6 @@ const FilterModal: React.FC<ModalProps> = ({ query, closeModal, applyFilters, fi
                   applyFilters(filters);
                 }
                 closeModal();
-                console.log(filterValues)
-
               }}
             >Apply Filters</button>
         </div>

@@ -3,10 +3,10 @@ import "./SignUp.css"
 import React, { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
-import { UserAuth } from "../../context/AuthContext"
 import Loading from "src/components/Loading/Loading"
 import { routes } from "src/utils/routes"
 import { validateForm } from "src/utils/validation"
+import { UserAuth } from "../../context/AuthContext"
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -47,18 +47,18 @@ const SignUp: React.FC = () => {
         setErrors(["An error occurred"]);
       }
     }
-    
+
     setLoading(false);
   }
 
-  
+
 
   const handleEmailBlur = () => {
     const errors = validateForm(email, password, repeatPassword);
     setErrors(errors);
   };
-  
-  
+
+
   const handlePasswordBlur = () => {
     const errors = validateForm(email, password, repeatPassword);
     setErrors(errors);
@@ -83,7 +83,6 @@ const SignUp: React.FC = () => {
                 <input
                   onChange={(e) => setEmail(e.target.value)}
                   onBlur={handleEmailBlur}
-                  // type="email"
                   value={email}
                   placeholder="Enter your email"
                   className={

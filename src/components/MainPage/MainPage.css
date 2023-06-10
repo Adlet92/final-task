@@ -8,7 +8,7 @@
     height: 100vh;
     left: 0px;
     top: 0px;
-    background-image: url('../../assets/main.svg'); 
+    background-image: url('../../assets/main.svg');
     background-repeat: no-repeat;
     background-size: 100%;
     background-color: transparent;
@@ -24,7 +24,7 @@
     font-style: normal;
     font-weight: 600;
     font-size: 32px;
-    line-height: 44px; 
+    line-height: 44px;
 
     color: #000000;
 
@@ -43,7 +43,7 @@
     color: #616161;
     text-align: left;
 }
-  
+
 .loginButton{
     position: absolute;
     width: 158px;
@@ -60,44 +60,3 @@
     color: #175BC0;
     margin-top: 12px;
 }
-/* Media Queries */
-@media screen and (max-width: 768px) {
-    .labelName {
-      font-size: 24px;
-      line-height: 36px;
-    }
-  
-    .descText {
-      font-size: 12px;
-      line-height: 16px;
-    }
-  
-    .loginButton {
-      font-size: 10px;
-      line-height: 14px;
-    }
-  }
-  
-  @media screen and (max-width: 480px) {
-    .labelName {
-      left: 76%;
-      transform: translateX(-50%);
-      top: 20%;
-      font-size: 20px;
-      line-height: 30px;
-    }
-  
-    .descText {
-      left: 103%;
-      transform: translateX(-100%);
-      top: 25%;
-      font-size: 10px;
-      line-height: 14px;
-      width: 158px;
-    }
-  
-    .loginButton {
-      font-size: 8px;
-      line-height: 12px;
-    }
-  }

@@ -4,7 +4,7 @@
 }
 .main-container{
 	width: 456px;
-    height: 434px;
+  height: 434px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -18,7 +18,7 @@
 }
 .error{
 	width: 456px;
-    height: 484px;
+  height: 484px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -38,19 +38,19 @@
 .signup-container{
 	width: 410px;
 	height: 100%;
-    padding-left: 31px;
-    padding-right: 30px;
+  padding-left: 31px;
+  padding-right: 30px;
 }
 .text{
 	text-align: center;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 25px;
-    color: #000000;
-    padding-top: 26px;
-    padding-bottom: 20px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  color: #000000;
+  padding-top: 26px;
+  padding-bottom: 20px;
 }
 .data{
 	height: 45px;
@@ -58,14 +58,14 @@
 	margin-bottom: 40px;
 }
 form .data label{
-    display: flex;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 19px;
-    color: #2B2B2B;
-    padding-bottom: 1px;
+  display: flex;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  color: #2B2B2B;
+  padding-bottom: 1px;
 }
 
 form .data input{
@@ -73,15 +73,15 @@ form .data input{
 	width: 100%;
 	padding-left: 10px;
 	background: #F5F5F5;
-    border-radius: 8px;
+  border-radius: 8px;
 
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 19px;
-    color: #6C6C6C;
-    border-color: transparent;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #6C6C6C;
+  border-color: transparent;
 }
 form .data input:not(:placeholder-shown) {
     border: 1px solid #9F9F9F;
@@ -92,23 +92,23 @@ form .data input:not(:placeholder-shown) {
     background: white;
   }
 .error-message {
-    left: calc(50% - 396px/2 + 22px);
-    top: calc(50% - 12px/2 + 68px);
+  left: calc(50% - 396px/2 + 22px);
+  top: calc(50% - 12px/2 + 68px);
 
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 12px;
-    text-align: center;
-    color: #EC3030;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 12px;
+  text-align: center;
+  color: #EC3030;
   }
 
 form .btn-signup{
 	height: 45px;
 	width: 100%;
-    margin-top: 24px;
-    margin-bottom: 8px;
+  margin-top: 24px;
+  margin-bottom: 8px;
 }
 
 form .btn-signup button{
@@ -120,29 +120,29 @@ form .btn-signup button{
 	border: none;
 	cursor: pointer;
 	background: #D8E7FF;
-    border-radius: 12px;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 12px;
-    line-height: 16px;
-    color: #175BC0;
+  border-radius: 12px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  color: #175BC0;
 }
 
 
 form .signup-link{
 	text-align: center;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 16px;
-    color: #000000;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #000000;
 }
 
 form .signup-link a{
-    font-weight: 800;
-    color: #000000;
+  font-weight: 800;
+  color: #000000;
 	text-decoration: none;
 }
 

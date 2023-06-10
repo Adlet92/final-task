@@ -20,13 +20,12 @@
     align-items: center;
     column-gap: 88px;
   }
-  .desciption-left, 
+  .desciption-left,
   .desciption-right {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    /* row-gap: 24px; */
   }
   .sequence-container {
     word-break: break-all;
@@ -35,7 +34,6 @@
     justify-content: center;
     align-items: flex-end;
     width: 1021px;
-    /* min-height: 231px; */
     left: 129px;
     top: 414px;
     background: #F2F2F2;

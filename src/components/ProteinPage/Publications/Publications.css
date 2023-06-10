@@ -8,18 +8,8 @@
     row-gap: 8px;
     justify-content: center;
     align-items: flex-start;
-  
+
     color: #6c6c6c;
-    /* box-sizing: border-box;
-
-    position: absolute;
-    width: 800px;
-    height: 239px;
-    left: 157px;
-    top: 265px;
-
-    background: #F5F6F8;
-    border-radius: 12px; */
   }
   .public{
     margin-left: 23px;
@@ -91,11 +81,8 @@
     display: flex;
     flex-direction: row;
     column-gap: 8px;
-    /* justify-content: space-around;
-    align-items: center; */
     height: 40px;
     margin-top: 19px;
-    /* margin-right: 2px; */
   }
   .containerLink{
     /* width: 88px; */
