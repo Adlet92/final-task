@@ -16,13 +16,13 @@ import { sortResults } from "../../utils/sorting";
 interface SearchProps {
   query: string;
   filters: string;
+  setHasSearchResults: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // eslint-disable-next-line react/prop-types
-const SearchResults: React.FC<SearchProps> = ({ query, filters }) => {
+const SearchResults: React.FC<SearchProps> = ({ query, filters, setHasSearchResults }) => {
 
   const [results, setResults] = useState<ResultsData[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [sortKey, setSortKey] = useState<SortKey | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>("default");
   const [searchParams, setSearchParams] = useSearchParams();
@@ -31,20 +31,17 @@ const SearchResults: React.FC<SearchProps> = ({ query, filters }) => {
 
     useEffect(() => {
       const fetchData = async () => {
-          setIsLoading(true);
           try {
             const { data: searchParams, headers: totalNum} = await fetchSearchResults(query, page, filters);
-            // setResults((prevResults) => [...prevResults, ...searchParams]);
             setResults(searchParams);
-            setTotalResults(totalNum)
+            setTotalResults(totalNum);
+            setHasSearchResults(searchParams.length > 0);
           } catch (error) {
             toast.error(error as string);
-          } finally {
-            setIsLoading(false);
           }
       };
         fetchData();
-    }, [query, sortOrder, sortKey, page, filters]);
+    }, [query, sortOrder, sortKey, page, filters, setHasSearchResults]);
 
 
   const loadMoreResults = async () => {

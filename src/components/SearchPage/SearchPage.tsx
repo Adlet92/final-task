@@ -14,6 +14,7 @@ const SearchPage: React.FC = () => {
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [filters, setFilters] = useState<string>("");
   const [filterButtonClicked, setFilterButtonClicked] = useState<boolean>(false);
+  const [hasSearchResults, setHasSearchResults] = useState<boolean>(false);
 
   useEffect(() => {
     const query = searchParams.get("query") || "";
@@ -60,7 +61,7 @@ const SearchPage: React.FC = () => {
 
   return (
     <div className="search-page">
-      <Header backButton={false}/>
+      <Header backButton={false} />
       <div className="search-bar">
         <form onSubmit={handleSearch}>
           <input
@@ -76,9 +77,11 @@ const SearchPage: React.FC = () => {
           </button>
         </form>
         <button
-          className={`filter-button ${filterButtonClicked ? 'active-button-filter' : ''} ${isSearchEmpty ? 'disabled' : ''}`}
+          className={`filter-button ${
+            filterButtonClicked ? "active-button-filter" : ""
+          } ${isSearchEmpty || !hasSearchResults ? "disabled" : ""}`}
           onClick={handleOpenModal}
-          disabled={isSearchEmpty}
+          disabled={isSearchEmpty || !hasSearchResults}
         />
           { filters && <div className="elipse"></div>}
       </div>
@@ -91,7 +94,7 @@ const SearchPage: React.FC = () => {
             <p className="bottom-text">No data to display</p>
           </div>
         )}
-        {submittedQuery && <SearchResults query={submittedQuery} filters={filters} />}
+        {submittedQuery && <SearchResults query={submittedQuery} filters={filters} setHasSearchResults={setHasSearchResults}/>}
       </div>
       {showFilters && <FilterModal query={submittedQuery} closeModal={handleCloseModal} applyFilters={applyFilters} filters={ filters} />}
     </div>
